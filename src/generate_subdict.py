@@ -1,7 +1,7 @@
 import csv, yaml
 from collections import defaultdict
 from tqdm import tqdm
-from src.parse_string import parse_string_with_unicode
+from src.parse_string_unic import parse_string_with_unicode
 from src.parser import parse_ids
 
 def generate_subdict1():
