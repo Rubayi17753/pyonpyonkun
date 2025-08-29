@@ -1,0 +1,1 @@
+https://www.babelstone.co.uk/CJK/IDS.TXT

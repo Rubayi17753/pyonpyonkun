@@ -1,7 +1,8 @@
-import csv
+import csv, yaml
 from collections import defaultdict
 from tqdm import tqdm
 from src.parse_string import parse_string_with_unicode
+from src.parser import parse_ids
 
 def generate_subdict1():
 
@@ -29,15 +30,17 @@ def generate_subdict2():
     assignedchar_dict = defaultdict(list)
     subdict = defaultdict(list)
 
-    with open('config/elements.tsv', newline='', encoding='utf-8') as csvfile1:
-        myreader = csv.reader(csvfile1, delimiter='\t')
-        rows = list(myreader)
-        rows = [row for row in rows if row]
-        # columns = [list(col) for col in zip(*rows)] 
+    with open('config/elements.yaml', 'r', encoding='utf-8') as stream:
+        docs = yaml.safe_load_all(stream)
+        doc0 = next(docs)
 
-        for keychar, chars, *_ in rows:
+        for keychar, chars in doc0['simplexes'].items():
             if keychar:
-                for assignedchar in parse_string_with_unicode(chars):
+                if ' ' in chars:
+                    chars = chars.split(' ')
+                else:
+                    chars = parse_ids(chars)
+                for assignedchar in chars:
                     assignedchar_dict[assignedchar].append(assignedchar)
 
     with open('data/ids_elements.tsv', newline='', encoding='utf-8') as csvfile2:

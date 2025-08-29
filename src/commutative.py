@@ -131,40 +131,7 @@ def locatebracketpair(s, n):
         return s[n : n+x+1]
     else:
         return ''
-
-def clonemirror(s):
-    ncom = sum(s.count(IDCcomt) for IDCcomt in IDCcommutativelist)
-    indexlist = []
-
-    if ncom > 0:
-        s_set = []   # list of strings to be returned
-        
-        for char, i in zip(s, range(len(s))):
-            if char in IDCcommutativelist:
-                indexlist.append(i)
-
-        prod2 = cartesianpow([(0,), (1,)], len(indexlist))
-        # print('prod2:\t' + str(prod2))
-        # print('indexlist:\t' + str(indexlist))
-        # print(prod2)
-
-        for togseqq in prod2:
-            s_nov = s   # "mirror" of s to be appended to s_set
-            # togseqq = sequence that toggles seqqflip
-            # if tog = 1 flip else don't flip
-            # print('indexlist:\t' + str(indexlist))
-            # print('togseqq:\t' + str(togseqq))
-            # indexlist = list(reversed(indexlist))
-            for indecs, tog in zip(list(range(ncom)), togseqq):
-                if tog == 1:
-                    s_nov = seqqflip(s_nov, indecs)
-            s_set.append(s_nov)
-            # print(s_nov)
-        return s_set
-
-    else:
-        return [s] 
-    
+   
 def seqqflip(s, ii):
         # i = position of commutative IDCs (one at a time)
 
@@ -197,6 +164,14 @@ def seqqflip(s, ii):
         return ''.join((si, seggmirr, sj))
 
 def cartesianpow(listt, n):
+
+    def cartesianprod(listt1, listt2):
+        cprod = []
+        for cellt1 in listt1:
+            for cellt2 in listt2:
+                cprod.append((cellt1 + cellt2))
+        return cprod
+    
     if n > 1:
         return cartesianprod(cartesianpow(listt, n - 1), listt)
         # list(itertools.product(*list(cartesianpow(listt, n - 1)), listt))
@@ -205,10 +180,33 @@ def cartesianpow(listt, n):
     else:
         return []
 
-def cartesianprod(listt1, listt2):
-    cprod = []
-    for cellt1 in listt1:
-        for cellt2 in listt2:
-            cprod.append((cellt1 + cellt2))
-    return cprod
+def clonemirror(s):
+    ncom = sum(s.count(IDCcomt) for IDCcomt in IDCcommutativelist)
+    indexlist = []
 
+    if ncom > 0:
+        s_set = []   # list of strings to be returned
+        
+        for char, i in zip(s, range(len(s))):
+            if char in IDCcommutativelist:
+                indexlist.append(i)
+
+        prod2 = cartesianpow([(0,), (1,)], len(indexlist))
+
+        for togseqq in prod2:
+            s_nov = s
+            for indecs, tog in zip(list(range(ncom)), togseqq):
+                if tog == 1:
+                    s_nov = seqqflip(s_nov, indecs)
+            s_set.append(s_nov)
+        return s_set
+
+    else:
+        return [s] 
+
+# "mirror" of s to be appended to s_set
+        # togseqq = sequence that toggles seqqflip
+        # if tog = 1 flip else don't flip
+        # print('indexlist:\t' + str(indexlist))
+        # print('togseqq:\t' + str(togseqq))
+        # indexlist = list(reversed(indexlist))
