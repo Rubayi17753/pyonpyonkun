@@ -31,7 +31,7 @@ def ids_to_idsi(s: str) -> dict:
 
                 j = 4 if char in idc3 else 3
                 sub_ids = chars[i: i+j]
-                print(f'>> {i}, {i+j} : {sub_ids}')
+                # print(f'>> {i}, {i+j} : {sub_ids}')
 
                 if sub_ids and all((True if x not in idc_all else False for x in sub_ids[1:])):
 
@@ -56,8 +56,8 @@ def idsi_to_ids(idsi: dict, starting_index = 0, return_type=str) -> str:
     while not all((not isinstance(x, int) for x in ids)):
         for i, dep in enumerate(ids.copy()):
             if isinstance(dep, int):
-                ids[i: i+1] = idsi.get(i, '')
-
+                ids[i: i+1] = idsi.get(dep, '')
+                
     if return_type == str:
         return ''.join(ids)
     elif return_type == list:
