@@ -64,11 +64,18 @@ def generate_element_data():
     print('Introducing freqlist')
     df = pd.merge(df, read_freqlist(), on='chara', how='left')
     df['freq'] = df['freq']/df['char_count'].fillna(0)
+    freqdict = pd.Series(df['freq'].values, index=df['chara']).to_dict()
+    freqdict = {k: (0 if pd.isna(v) else v) for k, v in freqdict.items()}
 
     df = df.groupby('sub_ids').agg(
         chars=('chara', tuple), 
-        freq=('freq', 'sum')).reset_index()
+        # freq=('freq', 'sum'),
+        ).reset_index()
     
+    print('Calculating total freqs')
+    df['freq'] = df['chars'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
+    df['freq'] = df['freq'].apply(sum)
+
     df = df.rename(columns={'sub_ids': 'chara'})
     df = pd.merge(df, read_strokelist(), on='chara', how='left')
     df['stroke'] = df['stroke'].fillna(0)
@@ -85,8 +92,8 @@ def generate_element_data():
 
     df = df.drop_duplicates()
     df = df.sort_values(['elm_type', 'stroke', 'freq'], ascending=[True, True, False]).reset_index(drop=True)
-    df = df[['chara', 'elm_type', 'freq', 'stroke', 'chars']]
-    df.columns = ['element', 'elm_type', 'freq', 'stroke', 'dependents']
+    df = df[['chara', 'elm_type', 'freq', 'stroke']]
+    df.columns = ['element', 'elm_type', 'freq', 'stroke']
 
     print(f'Writing to {dirs.ids_elements_fp}')
     df.to_csv(dirs.ids_elements_fp, sep='\t', encoding='utf-8', index=False)
