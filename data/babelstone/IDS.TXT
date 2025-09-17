@@ -136,7 +136,7 @@
 #	{60}	outside of 龜 [H source glyph] (F5F6 )	？
 #	{61}	outside of 臧 (F5F0 )	？
 #	{62}	bottom of 華 (F13D )	？
-#	{63}	
+#	{63}	left of 𦩳 (F2BE )	舟
 #	{64}	bottom left of 龜 [G source glyph] (F314 )	？
 #	{65}	bottom right of 龜 [G source glyph] (F318 )	？
 #	{66}	bottom right of 𪚴 (F31B )	？

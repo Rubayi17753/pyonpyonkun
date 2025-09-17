@@ -10,7 +10,7 @@ def interpolate(lis, sublis, N):
 
 def parse_ids(s):
 
-    s = ','.join(parse_string_with_unicode(s))
+    s = ','.join(tuple(s))
 
     if '{' in s:
         for chara in {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '{'}:
