@@ -1,8 +1,8 @@
 import itertools
 import copy
 
-from src.idsi import ids_to_idsi, idsi_to_ids
-from src.idc import idc_commutatives
+from src.modules.idsi import ids_to_idsi, idsi_to_ids
+from src.modules.idc import idc_commutatives
 
 def switch_elements(seq: list):
 	return [seq[0], seq[2], seq[1]]

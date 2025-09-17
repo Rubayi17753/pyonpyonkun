@@ -1,14 +1,13 @@
 import csv
+import pandas as pd
 from tqdm import tqdm
+
+import dirs
 
 def main():
 
-	data_fp = 'data/babelstone/IDS.TXT'
-
-	with open(data_fp, 'r', encoding='utf-8') as csvfile:
+	with open(dirs.ids_data_fp, 'r', encoding='utf-8') as csvfile:
 		myreader = csv.reader(csvfile, delimiter='\t')
-		# rows = list(myreader)
-
 		output = list()
 		comments = list()
 		
@@ -39,10 +38,10 @@ def main():
 						
 						output.append((unicode, char, seq, tag, ivi))
 
-	with open(data_fp.replace('IDS.TXT', 'IDS_preprocessed.tsv'), 'w', encoding='utf-8', newline='') as csvout:
+	with open(dirs.ids_processed_fp, 'w', encoding='utf-8', newline='') as csvout:
 		spamwriter = csv.writer(csvout, delimiter='\t')
 		spamwriter.writerows(output)
 	
-	with open(data_fp.replace('IDS.TXT', 'IDS_comments.tsv'), 'w', encoding='utf-8', newline='') as csvout:
+	with open(dirs.ids_comments_fp, 'w', encoding='utf-8', newline='') as csvout:
 		spamwriter = csv.writer(csvout, delimiter='\t')
 		spamwriter.writerows(comments)

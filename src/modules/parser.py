@@ -2,18 +2,14 @@ import os
 import re
 from tqdm import tqdm
 
-from src.parse_string_unic import parse_string_with_unicode
-from src.idc import idc_unarys
-
-def interpolate(lis, sublis, N):
-    return [*lis[:N], *sublis, *lis[N:]]
+from src.modules.idc import idc_unarys
 
 def parse_ids(s):
 
     s = ','.join(tuple(s))
 
     if '{' in s:
-        for chara in {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '{'}:
+        for chara in '0123456789{':
             if chara in s:
                 s = s.replace(f'{chara},', chara)
         s = s.strip(',')  

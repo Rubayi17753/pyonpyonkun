@@ -1,4 +1,4 @@
-from src.parser import parse_ids
+from src.modules.parser import parse_ids
 
 def decompose_stage1(s, subdict):
     for char in parse_ids(s):

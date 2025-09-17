@@ -1,5 +1,5 @@
-from parser import parse_ids
-from idc import idc2, idc3
+from src.modules.parser import parse_ids
+from src.modules.idc import idc2, idc3
 
 def ids2struct(s):
 

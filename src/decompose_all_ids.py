@@ -1,6 +1,6 @@
 import csv
 from tqdm import tqdm
-from src.decomposer import decompose
+from src.modules.decomposer import decompose
 from src.generate_subdict import generate_subdict1, generate_subdict2
 
 def main():

@@ -1,36 +1,35 @@
 import csv, yaml
+import pandas as pd
 from collections import defaultdict
 from tqdm import tqdm
-from src.parse_string_unic import parse_string_with_unicode
-from src.parser import parse_ids
 
-def generate_subdict1():
+from src.modules.parser import parse_ids
+from src.modules.idc import idc_all
+import dirs
 
+def read_ids():
+    print('Loading IDS')
+    df = pd.read_csv(dirs.ids_processed_fp, encoding='utf-8', sep='\t',
+                        header=None, names=['unicode', 'chara', 'sub_ids', 'regions', 'ivi'])
+    return df
+
+def read_freqlist():
+    print('Loading freqlist')
+    df = pd.read_csv(dirs.freqlist_fp, encoding='utf-8', sep='\t',
+                        header=None, names=['chara', 'freq', 'percentile'])
+    return df
+
+def read_strokelist():
+    print('Loading strokelist')
+    df = pd.read_csv(dirs.strokelist_fp, encoding='utf-8', sep='\t',
+                        header=None, names=['unicode', 'chara', 'stroke'])
+    return df
+
+def generate_assignedchar_data():
+
+    assignedchar_data = defaultdict(list)
     subdict = defaultdict(list)
-
-    with open('data/ids_elements.tsv', newline='', encoding='utf-8') as csvfile:
-        myreader = csv.reader(csvfile, delimiter='\t')
-        rows = list(myreader)
-        columns = [list(col) for col in zip(*rows)]
-
-    for char, sub_assigned, sub_alt, sub_ids in tqdm(zip(*columns), desc="Generating subdict"):
-
-        if sub_assigned == ';':
-            subdict[char].append(sub_alt)
-        elif sub_assigned:
-            subdict[char].append(sub_assigned)
-        elif sub_assigned == '':
-            if '⊖' not in sub_ids:
-                subdict[char].append(sub_ids)
-
-    return subdict
-
-def generate_subdict2():
-
-    assignedchar_dict = defaultdict(list)
-    subdict = defaultdict(list)
-
-    with open('config/elements.yaml', 'r', encoding='utf-8') as stream:
+    with open(dirs.elements_fp, 'r', encoding='utf-8') as stream:
         docs = yaml.safe_load_all(stream)
         doc0 = next(docs)
 
@@ -41,17 +40,73 @@ def generate_subdict2():
                 else:
                     chars = parse_ids(chars)
                 for assignedchar in chars:
-                    assignedchar_dict[assignedchar].append(assignedchar)
+                    assignedchar_data[assignedchar].append(assignedchar)
 
-    with open('data/ids_elements.tsv', newline='', encoding='utf-8') as csvfile2:
+    return assignedchar_data
+
+def generate_element_data():
+
+    df_ids = read_ids()
+    df = df_ids.copy()
+    df['sub_ids'] = df['sub_ids'].apply(parse_ids)
+
+    print('Deleting entries with ⊖')
+    df = df[~df['sub_ids'].str.contains('⊖', na=False)]
+
+    df['sub_ids'] = df['sub_ids'].str.split(',', expand=False)
+    df['char_count'] = df.groupby('chara')['chara'].transform('count')
+    df = df.explode('sub_ids').reset_index(drop=True)
+
+    # print(df[df['char_count'] > 1])
+
+    print('Introducing freqlist')
+    df = pd.merge(df, read_freqlist(), on='chara', how='left')
+    df['freq'] = df['freq']/df['char_count'].fillna(0)
+
+    df = df.groupby('sub_ids').agg(
+        chars=('chara', tuple), 
+        freq=('freq', 'sum')).reset_index()
+    
+    print('Introducing strokelist')
+    df = df.rename(columns={'sub_ids': 'chara'})
+    df = pd.merge(df, read_strokelist(), on='chara', how='left')
+    df['stroke'] = df['stroke'].fillna(0)
+
+    print('Introducing elm_type')
+    def get_elm(x):
+        if x.startswith('{'):
+            return 'unencoded'
+        elif x in idc_all:
+            return 'idc'
+        else:
+            return ''
+
+    df['elm_type'] = df['chara'].apply(get_elm)
+
+    df = df.sort_values(['elm_type', 'stroke', 'freq'], ascending=[True, True, False]).reset_index(drop=True)
+    df = df[['chara', 'elm_type', 'freq', 'stroke', 'chars']]
+    df.columns = ['element', 'elm_type', 'freq', 'stroke', 'dependents']
+
+    print(f'Writing to {dirs.ids_elements_fp}')
+    df.to_csv(dirs.ids_elements_fp, sep='\t', encoding='utf-8', index=False)
+    return df
+
+def generate_subdict(assignedchar_data):
+
+    subdict = defaultdict()
+
+    df_ids = pd.read_csv(dirs.ids_processed_fp, encoding='utf-8', 
+                    header=None, names=['unicode', 'chara', 'sub_ids', 'regions', 'ivi'])
+    
+    with open(dirs.ids_processed_fp, newline='', encoding='utf-8') as csvfile2:
         myreader = csv.reader(csvfile2, delimiter='\t')
         rows = list(myreader)
         columns = [list(col) for col in zip(*rows)]
 
-        for char, sub_assigned, sub_alt, sub_ids, *_ in tqdm(zip(*columns), desc="Generating subdict"):
+        for unicode, char, sub_ids, *_ in tqdm(zip(*columns), desc="Generating subdict"):
             
-            if char in assignedchar_dict:
-                for assignedchar in assignedchar_dict.get(char, list()):
+            if char in assignedchar_data:
+                for assignedchar in assignedchar_data.get(char, list()):
                     subdict[char].append(assignedchar)
             elif char:
                 if '⊖' not in sub_ids:

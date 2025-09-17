@@ -14,9 +14,8 @@ IDSI = Ideographical Description Sequence *Index*:
 
 import copy
 
-from src.parser import parse_ids
-from src.idc import idc_all, idc2, idc3
-from src.idc import idc_to_len
+from src.modules.parser import parse_ids
+from src.modules.idc import idc_all, idc2, idc3, idc_to_len
 
 def ids_to_idsi(s: str) -> dict:
 
