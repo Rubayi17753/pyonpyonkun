@@ -77,7 +77,7 @@ def lint_ids(s):
     idsi = ids_to_idsi(s)
     lint = lint_idsi(idsi)
     if lint:
-        print(f'Invalid IDS: IDCs with irregular number of components in position(s) {', '.join(lint)}')
+        print(f'Invalid IDS: IDCs with irregular number of components in position(s) {", ".join(lint)}')
     else:
         print('Valid IDS')
 

@@ -1,7 +1,7 @@
 import csv
 from tqdm import tqdm
 from src.modules.decomposer import decompose
-from src.generate_subdict import generate_subdict1, generate_subdict2
+from src.generate_subdict import generate_subdict
 
 def main():
 
@@ -11,7 +11,7 @@ def main():
         myreader = csv.reader(csvfile, delimiter='\t')
         rows = list(myreader)
         
-        subdict = generate_subdict2()
+        subdict = generate_subdict()
         output = list()
         for row in tqdm(rows):
             # ids: unicode, char, ids, *_
