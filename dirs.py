@@ -5,4 +5,4 @@ ids_elements_fp = 'data/intermediate/ids_elements.tsv'
 
 freqlist_fp = 'data/raw/freqs/composite.tsv'
 elements_fp = 'config/elements.yaml'
-strokelist_fp = 'data/raw/ucs-strokes.txt'
+strokelist_fp = 'data/raw/complete-strokes.txt'

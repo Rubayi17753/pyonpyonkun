@@ -48,12 +48,14 @@ def generate_element_data():
 
     df_ids = read_ids()
     df = df_ids.copy()
+    
+    print('Deleting entries involving subtraction')
+    df = df[~df['sub_ids'].str.contains('㇯', na=False)]
+
     df['sub_ids'] = df['sub_ids'].apply(parse_ids)
-
-    print('Deleting entries with ⊖')
-    df = df[~df['sub_ids'].str.contains('⊖', na=False)]
-
     df['sub_ids'] = df['sub_ids'].str.split(',', expand=False)
+
+    print('Introducing charcount, explode')
     df['char_count'] = df.groupby('chara')['chara'].transform('count')
     df = df.explode('sub_ids').reset_index(drop=True)
 
@@ -67,7 +69,6 @@ def generate_element_data():
         chars=('chara', tuple), 
         freq=('freq', 'sum')).reset_index()
     
-    print('Introducing strokelist')
     df = df.rename(columns={'sub_ids': 'chara'})
     df = pd.merge(df, read_strokelist(), on='chara', how='left')
     df['stroke'] = df['stroke'].fillna(0)
@@ -80,9 +81,9 @@ def generate_element_data():
             return 'idc'
         else:
             return ''
-
     df['elm_type'] = df['chara'].apply(get_elm)
 
+    df = df.drop_duplicates()
     df = df.sort_values(['elm_type', 'stroke', 'freq'], ascending=[True, True, False]).reset_index(drop=True)
     df = df[['chara', 'elm_type', 'freq', 'stroke', 'chars']]
     df.columns = ['element', 'elm_type', 'freq', 'stroke', 'dependents']
