@@ -20,8 +20,7 @@ from src.modules.idc import idc_all, idc2, idc3, idc_to_len
 def ids_to_idsi(s: str) -> dict:
 
     idsi = dict()
-    chars = parse_ids(s).split(',')
-
+    chars = parse_ids(s)
     def scan_ids(chars):
 
         # tuple() is neccesitated by the fact that lists cannot be iterated and modified at the same time

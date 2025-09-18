@@ -3,21 +3,21 @@ from src.modules.parser import parse_ids
 def decompose(ids_main, subdict, mode='full_decomp', keys_only=1):
 
     output = 0
-    ids_prevs = set()
     outcome_dict = {ids_main: 2}
-
+    # ids_prevs = set()
+   
     def decompose_stage1(ids):
         for char in parse_ids(ids):
-            if char in subdict:
-                for sub in subdict.get(char, [char]):
+            match = subdict.get(char, '')
+            if match:
+                print(match)
+                for sub in match:
                     ids = ids.replace(char, sub)
         return ids
 
     def decompose_stage2():
         for ids in outcome_dict.copy():
-
             ids_new = decompose_stage1(ids)
-
             if ids_new == ids:
                 outcome_dict[ids_new] = 0
             else:

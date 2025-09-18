@@ -3,7 +3,7 @@ from src.modules.idc import idc2, idc3
 
 def ids2struct(s):
 
-    chars = parse_ids(s).split(',')
+    chars = parse_ids(s)
     output = list()
     curr = list()
 
