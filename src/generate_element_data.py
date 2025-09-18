@@ -109,7 +109,7 @@ def generate_element_data(output='entries'):
         df['sub_ids_regions'] = df['sub_ids_regions'].fillna('.')
 
     print(f'Writing to {dirs.ids_elements_fp}')
-    df.to_csv(dirs.ids_elements_fp, sep='\t', encoding='utf-8', index=False)
+    df.to_json(dirs.ids_elements_fp, orient='records', lines=True, force_ascii=False)
     return df
 
 def third_freq(df):

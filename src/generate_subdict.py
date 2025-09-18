@@ -34,7 +34,7 @@ def generate_subdict():
     prims, prim_to_button = generate_custom_data()
 
     try:
-        df_sub = pd.read_csv(dirs.ids_elements_fp, encoding='utf-8', sep='\t')
+        df_sub = pd.read_json(dirs.ids_elements_fp, lines=True)
     except FileNotFoundError:
         print(f'{dirs.ids_elements_fp} not found. Generating element_data')
         df_sub = generate_element_data(output='two_lists')
