@@ -10,7 +10,6 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1):
         for char in parse_ids(ids):
             match = subdict.get(char, '')
             if match:
-                print(match)
                 for sub in match:
                     ids = ids.replace(char, sub)
         return ids
