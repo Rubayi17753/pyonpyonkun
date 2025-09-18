@@ -101,12 +101,12 @@ def generate_element_data(output='entries'):
 
     if output in {'entries', 'two_lists'}:
         df = df[['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 'freq', 'freq1']]
-        df['sub_ids'] = df['sub_ids'].fillna('.')
-        df['regions'] = df['regions'].fillna('.')
+        df['sub_ids'].fillna(df['element'], inplace=True)   # default sub_ids: the element itself
+        df['regions'].fillna('.', inplace=True)
 
     elif output == 'tuples':
         df = df[['element', 'sub_ids_regions', 'elm_type', 'stroke', 'freq', 'freq1']]
-        df['sub_ids_regions'] = df['sub_ids_regions'].fillna('.')
+        df['sub_ids_regions'] = df['sub_ids_regions'].fillna('.')   # wip
 
     print(f'Writing to {dirs.ids_elements_fp}')
     df.to_json(dirs.ids_elements_fp, orient='records', lines=True, force_ascii=False)
