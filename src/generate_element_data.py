@@ -23,7 +23,7 @@ def read_strokelist():
                         header=None, names=['unicode', 'chara', 'stroke'])
     return df
 
-def generate_element_data(output='entries'):
+def _generate_element_data(output='entries', write_to='json', include_dep=False):
 
     df_ids = read_ids()
     df = df_ids.copy()
@@ -51,7 +51,7 @@ def generate_element_data(output='entries'):
         dep=('chara', tuple), 
         # freq=('freq', 'sum'),
         ).reset_index()
-    
+
     print('Calculating total freqs')
     df['freq1'] = df['dep'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
     df['freq1'] = df['freq1'].apply(sum)
@@ -100,42 +100,67 @@ def generate_element_data(output='entries'):
     df = df.rename(columns={'chara': 'element'})
 
     if output in {'entries', 'two_lists'}:
-        df = df[['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 'freq', 'freq1']]
-        df['sub_ids'].fillna(df['element'], inplace=True)   # default sub_ids: the element itself
-        df['regions'].fillna('.', inplace=True)
+        df = df[['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 'freq', 'freq1', 'dep']]
+        df['sub_ids'] = df['sub_ids'].fillna(df['element'])  # default sub_ids: the element itself
+        df['regions'] = df['regions'].fillna('.')
 
     elif output == 'tuples':
-        df = df[['element', 'sub_ids_regions', 'elm_type', 'stroke', 'freq', 'freq1']]
+        df = df[['element', 'sub_ids_regions', 'elm_type', 'stroke', 'freq', 'freq1', 'dep']]
         df['sub_ids_regions'] = df['sub_ids_regions'].fillna('.')   # wip
 
-    print(f'Writing to {dirs.ids_elements_fp}')
-    df.to_json(dirs.ids_elements_fp, orient='records', lines=True, force_ascii=False)
+    if not include_dep:
+        del df['dep']
+
+    if write_to == 'json':
+        print(f'Writing to {dirs.ids_elements_fp_json}')
+        df.to_json(dirs.ids_elements_fp_json, orient='records', lines=True, force_ascii=False)
+
+    elif write_to == 'csv':
+        print(f'Writing to {dirs.ids_elements_fp_csv}')
+        df.to_csv(dirs.ids_elements_fp_csv, sep='\t', encoding='utf-8', index=False)
+
     return df
 
-def third_freq(df):
+def generate_element_data(output='entries', read_from='x', write_to='json', include_dep=False):
 
-    print('Extract dict_comp')
-    df_comp = df.copy()
-    dict_comp = pd.Series(df_comp['dep'].values, index=df_comp['element']).to_dict()
+    if read_from == 'x':
+        write_to = read_from
 
-    def expand_dep(dep):
+    if write_to == 'json':
+        try:
+            df_sub = pd.read_json(dirs.ids_elements_fp_json, lines=True)
+        except FileNotFoundError:
+            print(f'{dirs.ids_elements_fp_json} not found. Generating element_data')
+            df_sub = _generate_element_data(output, include_dep)
+    
+    elif write_to == 'csv':
+        try:
+            df_sub = pd.read_json(dirs.ids_elements_fp_csv, lines=True)
+        except FileNotFoundError:
+            print(f'{dirs.ids_elements_fp_csv} not found. Generating element_data')
+            df_sub = _generate_element_data(output, include_dep, write_to='csv')
 
-        dep_prev = tuple(dep)
-        dep = list()
-        for char in dep_prev:
-            match = dict_comp.get(char, '')
-            if match:
-                if char != match:
-                    dep.extend(match)
+    else:
+        df_sub = _generate_element_data(output, include_dep, write_to)
 
-        if dep != dep_prev:
-            print(dep)
-            expand_dep(dep)
+    return df_sub
+
+def third_freq():
+
+    df_elm = generate_element_data(write_to='', include_dep=True)
+    df = df_elm.copy()
+    df = df[['element', 'dep']]
+
+    set_elm = set(df['element'])
+    df['match'] = df[df['dep'].apply(lambda dep: all(c in set_elm for c in dep))]
+
+    print(df)
+    exit()
 
     print('Expand dep')
     # depx = ('书', '巪', '彐', '為', '為', '爲', '爲', '片', '㔖', '㪲', '㫇', '䎞', '𠀌', '𠀟', '𠁡', '𠁬', '𠃍', '𠄣', '𡧐', '𣪃', '𦭍', '𧰳', '𨾗', '𪢳', '𪥁', '𫤰', '𫼓', '𬊓', '𬊓', '𬲡', '𬲡', '𭀻', '𭀻', '𭁕', '𭆾', '𭓕', '𭓘', '𭠚', '𭥋', '𭩘', '𮞌', '\U000301c8', '\U00030255', '\U00030481', '\U00030912', '\U00030bee', '\U00030bee', '\U00030c2f', '\U00030d97', '\U00030f18', '\U00031d5a', '\U00031d5a')
     # print(expand_dep(depx))
-    df['dep2'] = df['dep'].apply(expand_dep)
+    # df['dep2'] = df['dep'].apply(expand_dep)
 
 
 

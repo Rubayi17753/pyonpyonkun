@@ -32,12 +32,7 @@ def generate_custom_data():
 def generate_subdict():
 
     prims, prim_to_button = generate_custom_data()
-
-    try:
-        df_sub = pd.read_json(dirs.ids_elements_fp, lines=True)
-    except FileNotFoundError:
-        print(f'{dirs.ids_elements_fp} not found. Generating element_data')
-        df_sub = generate_element_data(output='two_lists')
+    df_sub = generate_element_data(output='two_lists')
 
     ['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 'freq', 'freq1']
     
