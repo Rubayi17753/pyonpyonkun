@@ -109,6 +109,8 @@ def _generate_element_data(output='entries', write_to='json', include_dep=False)
         df = df[['element', 'sub_ids_regions', 'elm_type', 'stroke', 'freq', 'freq1', 'dep']]
         df['sub_ids_regions'] = df['sub_ids_regions'].fillna('.')   # wip
 
+    print(f'include_dep: {include_dep}')
+
     if not include_dep:
         del df['dep']
 
@@ -132,7 +134,7 @@ def generate_element_data(output='entries', read_from='x', write_to='json', incl
             df_sub = pd.read_json(dirs.ids_elements_fp_json, lines=True)
         except FileNotFoundError:
             print(f'{dirs.ids_elements_fp_json} not found. Generating element_data')
-            df_sub = _generate_element_data(output, include_dep)
+            df_sub = _generate_element_data(output, write_to, include_dep)
     
     elif read_from == 'csv':
         try:
@@ -142,16 +144,25 @@ def generate_element_data(output='entries', read_from='x', write_to='json', incl
             df_sub = _generate_element_data(output, include_dep, write_to='csv')
 
     else:
-        df_sub = _generate_element_data(output, include_dep, write_to)
+        df_sub = _generate_element_data(output, write_to, include_dep)
 
     return df_sub
 
 def third_freq():
 
     df = generate_element_data(write_to='', include_dep=True).copy()
-    df = df.head(100)
+    df = df.iloc[:1000]
     # df = pd.read_json('data/samples/element_dep.json', lines=True)
     df = df[['element', 'dep']]
+
+    # Removes idem chars in dep and deletes entries with empty elms
+    df['dep'] = df.apply(
+    lambda row: tuple((x for x in row['dep'] if x != row['element'])),
+    axis=1)
+    df = df[(df['dep'].str.len() > 0)]
+
+    # print(df.iloc[200:300])
+    # exit()
 
     set_elm = set(df['element']).copy()
     elm_to_dep = pd.Series(df['dep'].values, index=df['element']).to_dict()
@@ -184,7 +195,7 @@ def third_freq():
         not_yet_matched = df['dep_bin_count'].sum()
         print(not_yet_matched)
 
-    # print(df)
+    print(df)
     exit()
 
     # df_top = df[df['dep_bin_count'] == 0]
