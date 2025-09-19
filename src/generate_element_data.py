@@ -1,5 +1,6 @@
 import pandas as pd
 from functools import partial
+from itertools import chain
 
 from src.modules.parser import parse_ids
 from src.modules.idc import idc_all
@@ -126,14 +127,14 @@ def generate_element_data(output='entries', read_from='x', write_to='json', incl
     if read_from == 'x':
         write_to = read_from
 
-    if write_to == 'json':
+    if read_from == 'json':
         try:
             df_sub = pd.read_json(dirs.ids_elements_fp_json, lines=True)
         except FileNotFoundError:
             print(f'{dirs.ids_elements_fp_json} not found. Generating element_data')
             df_sub = _generate_element_data(output, include_dep)
     
-    elif write_to == 'csv':
+    elif read_from == 'csv':
         try:
             df_sub = pd.read_json(dirs.ids_elements_fp_csv, lines=True)
         except FileNotFoundError:
@@ -147,17 +148,59 @@ def generate_element_data(output='entries', read_from='x', write_to='json', incl
 
 def third_freq():
 
-    df_elm = generate_element_data(write_to='', include_dep=True)
-    df = df_elm.copy()
+    df = generate_element_data(write_to='', include_dep=True).copy()
+    df = df.head(100)
+    # df = pd.read_json('data/samples/element_dep.json', lines=True)
     df = df[['element', 'dep']]
 
-    set_elm = set(df['element'])
-    df['match'] = df[df['dep'].apply(lambda dep: all(c in set_elm for c in dep))]
+    set_elm = set(df['element']).copy()
+    elm_to_dep = pd.Series(df['dep'].values, index=df['element']).to_dict()
+    
+    def generate_bin(dep):
+        return tuple([c in set_elm for c in dep])
 
-    print(df)
+    df['dep2'] = ''
+    df['dep_bin'] = df['dep'].apply(generate_bin)
+    df['dep_bin_count'] = df['dep_bin'].apply(sum)
+    not_yet_matched = df['dep_bin_count'].sum()
+    print(not_yet_matched)
+    # print(df)
+
+    while not_yet_matched > 0:
+
+        df['dep2'] = df['dep'].apply(lambda dep: tuple(chain.from_iterable([elm_to_dep.get(c, '') for c in dep])))
+        df['dep'] = df['dep'] + df['dep2']
+        df['dep_bin'] = df['dep_bin'].apply(lambda bin: tuple([False for c in bin])) + df['dep2'].apply(generate_bin)
+        df['dep_bin_count'] = df['dep_bin'].apply(sum)
+
+        # print(df)
+
+        '''
+        The left half resets the bin (False indicates that a character has been matched, 
+                                        and therefore not to be matched again)
+        The right half is the new bin
+        '''
+
+        not_yet_matched = df['dep_bin_count'].sum()
+        print(not_yet_matched)
+
+    # print(df)
     exit()
 
-    print('Expand dep')
+    # df_top = df[df['dep_bin_count'] == 0]
+    # dict_top= pd.Series(df_top['dep'].values, index=df_top['element']).to_dict()
+    
+    # mask = df['dep'].apply(lambda dep: all(c in set_elm for c in dep))
+    # df_top = df[mask]   # a df of all entries with no dependents in the df
+    
+    q = '几'    # 几踶
+    print(f'len of {dict_top}')
+    print(f'len of {q} dep: {len(df.loc[df['element'] == q, 'dep2'].iloc[0])}')
+    exit()
+
+    return df
+
+    # print('Expand dep')
     # depx = ('书', '巪', '彐', '為', '為', '爲', '爲', '片', '㔖', '㪲', '㫇', '䎞', '𠀌', '𠀟', '𠁡', '𠁬', '𠃍', '𠄣', '𡧐', '𣪃', '𦭍', '𧰳', '𨾗', '𪢳', '𪥁', '𫤰', '𫼓', '𬊓', '𬊓', '𬲡', '𬲡', '𭀻', '𭀻', '𭁕', '𭆾', '𭓕', '𭓘', '𭠚', '𭥋', '𭩘', '𮞌', '\U000301c8', '\U00030255', '\U00030481', '\U00030912', '\U00030bee', '\U00030bee', '\U00030c2f', '\U00030d97', '\U00030f18', '\U00031d5a', '\U00031d5a')
     # print(expand_dep(depx))
     # df['dep2'] = df['dep'].apply(expand_dep)
