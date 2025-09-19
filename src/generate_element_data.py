@@ -151,7 +151,7 @@ def generate_element_data(output='entries', read_from='x', write_to='json', incl
 def third_freq():
 
     df = generate_element_data(write_to='', include_dep=True).copy()
-    df = df.iloc[:1000]
+    # df = df.iloc[:1000]
     # df = pd.read_json('data/samples/element_dep.json', lines=True)
     df = df[['element', 'dep']]
 
@@ -168,7 +168,10 @@ def third_freq():
     elm_to_dep = pd.Series(df['dep'].values, index=df['element']).to_dict()
     
     def generate_bin(dep):
-        return tuple([c in set_elm for c in dep])
+        return tuple((c in set_elm for c in dep))
+    
+    def sift(row):
+        return tuple(chain.from_iterable((elm_to_dep.get(c, '') for c, bin in zip(row['dep'], row['dep_bin']) if bin == True)))
 
     df['dep2'] = ''
     df['dep_bin'] = df['dep'].apply(generate_bin)
@@ -179,12 +182,9 @@ def third_freq():
 
     while not_yet_matched > 0:
 
-        df['dep2'] = df['dep'].apply(lambda dep: tuple(chain.from_iterable([elm_to_dep.get(c, '') for c in dep])))
+        df['dep2'] = df.apply(sift, axis=1)
         df['dep'] = df['dep'] + df['dep2']
         df['dep_bin'] = df['dep_bin'].apply(lambda bin: tuple([False for c in bin])) + df['dep2'].apply(generate_bin)
-        df['dep_bin_count'] = df['dep_bin'].apply(sum)
-
-        # print(df)
 
         '''
         The left half resets the bin (False indicates that a character has been matched, 
@@ -192,10 +192,11 @@ def third_freq():
         The right half is the new bin
         '''
 
+        df['dep_bin_count'] = df['dep_bin'].apply(sum)
         not_yet_matched = df['dep_bin_count'].sum()
         print(not_yet_matched)
 
-    print(df)
+    # print(df)
     exit()
 
     # df_top = df[df['dep_bin_count'] == 0]
