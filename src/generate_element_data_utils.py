@@ -16,7 +16,7 @@ def complete_dep(df):
     df['dep'] = df.apply(
     lambda row: tuple((x for x in row['dep'] if x != row['element'])),
     axis=1)
-    df = df[(df['dep'].str.len() > 0)]
+    # df = df[(df['dep'].str.len() > 0)]
 
     set_elm = set(df['element']).copy()
     elm_to_dep = pd.Series(df['dep'].values, index=df['element']).to_dict()
@@ -48,10 +48,6 @@ def complete_dep(df):
         df['dep_bin_count'] = df['dep_bin'].apply(sum)
         not_yet_matched = df['dep_bin_count'].sum()
         print(not_yet_matched)
-
-        type_counts = df['dep'].map(type).value_counts()
-        print(type_counts)
-        exit()
 
     return df
 
@@ -107,8 +103,6 @@ def _insert_dep(df):
 
 def _insert_freq1(df, freqdict):
 
-	print(df['dep'])
-
 	df['freq1'] = df['dep'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
 	df['freq1'] = df['freq1'].apply(sum)
 	df = pd.merge(df, read_strokelist().rename(columns={'chara': 'element'}), on='element', how='left')
@@ -134,6 +128,11 @@ def _insert_dep2(df):
 	return df
 
 def _insert_freq2(df, freqdict):
+
+	# print(df['dep2'])
+	df = df[df['dep2'].map(type) == float]
+	print(df)
+	# exit()
 
 	df['freq2'] = df['dep2'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
 	df['freq2'] = df['freq2'].apply(sum)
