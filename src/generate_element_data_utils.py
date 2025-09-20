@@ -166,7 +166,7 @@ def _split_sub_ids_regions(df, output):
 
 def _drop_dupl_and_sort(df):
 	df = df.drop_duplicates()
-	df = df.sort_values(['elm_type', 'stroke', 'freq1'], ascending=[True, True, False]).reset_index(drop=True)
+	df = df.sort_values(['elm_type', 'stroke', 'freq2'], ascending=[True, True, False]).reset_index(drop=True)
 	return df
 
 def _arrange_cols_(df, output):

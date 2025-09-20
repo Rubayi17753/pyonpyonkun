@@ -62,9 +62,10 @@ def generate_element_data(output='entries', read_from='x', write_to='json', incl
         return df
     
     def write_data(df):
-
+        
         if not include_dep:
             del df['dep']
+            del df['dep2']
 
         if write_to == 'json':
             print(f'Writing to {dirs.ids_elements_fp_json}')
