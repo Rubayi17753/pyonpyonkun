@@ -33,8 +33,6 @@ def generate_subdict():
 
     prims, prim_to_button = generate_custom_data()
     df_sub = generate_element_data(output='two_lists')
-
-    ['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 'freq', 'freq1']
     
     df_sub = df_sub[['element', 'sub_ids']]
 
