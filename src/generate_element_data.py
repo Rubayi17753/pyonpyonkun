@@ -15,6 +15,7 @@ def _generate_element_data(output='entries', write_to='json', include_dep=False)
     '_insert_dep2',
     '_insert_freq2',
     '_insert_freq',
+    '_insert_stroke',
     '_insert_sub_ids_regions',
     '_split_sub_ids_regions',
     '_drop_dupl_and_sort',
@@ -33,7 +34,35 @@ def _generate_element_data(output='entries', write_to='json', include_dep=False)
         else:
             df = getattr(utils, func)(df)
 
-    if write_to:
+    return df
+
+def generate_element_data(output='entries', read_from='x', write_to='json', include_dep=False):
+
+    if read_from == 'x':
+        read_from = write_to
+
+    def process_data():
+        if read_from == 'json':
+            try:
+                df = pd.read_json(dirs.ids_elements_fp_json, lines=True)
+            except FileNotFoundError:
+                print(f'{dirs.ids_elements_fp_json} not found. Generating element_data')
+                df = _generate_element_data(output, write_to, include_dep)
+        
+        elif read_from == 'csv':
+            try:
+                df = pd.read_json(dirs.ids_elements_fp_csv, lines=True)
+            except FileNotFoundError:
+                print(f'{dirs.ids_elements_fp_csv} not found. Generating element_data')
+                df = _generate_element_data(output, include_dep, write_to='csv')
+
+        else:
+            df = _generate_element_data(output, write_to, include_dep)
+
+        return df
+    
+    def write_data(df):
+
         if not include_dep:
             del df['dep']
 
@@ -45,29 +74,7 @@ def _generate_element_data(output='entries', write_to='json', include_dep=False)
             print(f'Writing to {dirs.ids_elements_fp_csv}')
             df.to_csv(dirs.ids_elements_fp_csv, sep='\t', encoding='utf-8', index=False) 
 
+    df = process_data()
+    write_data(df)
     return df
-
-def generate_element_data(output='entries', read_from='x', write_to='json', include_dep=False):
-
-    if read_from == 'x':
-        write_to = read_from
-
-    if read_from == 'json':
-        try:
-            df_sub = pd.read_json(dirs.ids_elements_fp_json, lines=True)
-        except FileNotFoundError:
-            print(f'{dirs.ids_elements_fp_json} not found. Generating element_data')
-            df_sub = _generate_element_data(output, write_to, include_dep)
-    
-    elif read_from == 'csv':
-        try:
-            df_sub = pd.read_json(dirs.ids_elements_fp_csv, lines=True)
-        except FileNotFoundError:
-            print(f'{dirs.ids_elements_fp_csv} not found. Generating element_data')
-            df_sub = _generate_element_data(output, include_dep, write_to='csv')
-
-    else:
-        df_sub = _generate_element_data(output, write_to, include_dep)
-
-    return df_sub
 

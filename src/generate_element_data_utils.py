@@ -52,7 +52,6 @@ def complete_dep(df):
     return df
 
 def read_ids():
-    print('Loading IDS')
     df = pd.read_csv(dirs.ids_processed_fp, encoding='utf-8', sep='\t',
                         header=None, names=['unicode', 'chara', 'sub_ids', 'regions', 'ivi'])
     return df
@@ -105,7 +104,6 @@ def _insert_freq1(df, freqdict):
 
 	df['freq1'] = df['dep'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
 	df['freq1'] = df['freq1'].apply(sum)
-	df = pd.merge(df, read_strokelist().rename(columns={'chara': 'element'}), on='element', how='left')
 	return df
 
 def _insert_elm_type(df):
@@ -129,25 +127,21 @@ def _insert_dep2(df):
 
 def _insert_freq2(df, freqdict):
 
-	# print(df['dep2'])
-	df = df[df['dep2'].map(type) == float]
-	print(df)
-	# exit()
-
 	df['freq2'] = df['dep2'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
 	df['freq2'] = df['freq2'].apply(sum)
-	df = pd.merge(df, read_strokelist().rename(columns={'chara': 'element'}), on='element', how='left')
-	df['stroke'] = df['stroke'].fillna(0)
 	return df
 
 def _insert_freq(df):
-	print('Remerge freq_list')
-	df = pd.merge(df, read_freqlist(), on='chara', how='left')
+	df = pd.merge(df, read_freqlist().rename(columns={'chara': 'element'}), on='element', how='left')
 	df['freq'] = df['freq'].fillna(0)
 	return df
 
+def _insert_stroke(df):
+	df = pd.merge(df, read_strokelist().rename(columns={'chara': 'element'}), on='element', how='left')
+	return df
+
 def _insert_sub_ids_regions(df, output):
-	df_ids2 = read_ids().copy()
+	df_ids2 = read_ids().copy().rename(columns={'chara': 'element'})
 	df_ids2['element'] = df_ids2['element'].fillna('')
 	df_ids2['sub_ids'] = df_ids2['sub_ids'].fillna('')
 	df_ids2['regions'] = df_ids2['regions'].fillna('')
