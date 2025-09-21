@@ -1,10 +1,10 @@
-import csv, yaml
+import tsv, yaml
 import pandas as pd
 from itertools import chain
 from collections import defaultdict
 from tqdm import tqdm
 
-from src.generate_element_data import generate_element_data
+from src.generate_element_data import _generate_element_data
 from src.modules.parser import parse_ids
 from src.modules.idc import idc_all
 import dirs
@@ -28,16 +28,3 @@ def generate_custom_data():
                     prim_to_button[char].append(keychar)
 
     return prims, prim_to_button
-
-def generate_subdict():
-
-    prims, prim_to_button = generate_custom_data()
-    df_sub = generate_element_data(output='two_lists')
-    
-    df_sub = df_sub[['element', 'sub_ids']]
-
-    # Overwrite sub_ids set in custom_subs
-    df_sub.loc[df_sub['element'].isin(prims), 'sub_ids'] = df_sub['element']
-
-    subdict = pd.Series(df_sub['sub_ids'].values, index=df_sub['element']).to_dict()
-    return subdict

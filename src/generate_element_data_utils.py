@@ -9,7 +9,7 @@ import dirs
 
 def complete_dep(df):
 
-    # df = generate_element_data(write_to='', include_dep=True).copy()
+    # df = generate_element_data(write_to='', write_dep=True).copy()
     df = df[['element', 'dep']]
 
     # Removes idem chars in dep and deletes entries with empty elms
@@ -52,19 +52,18 @@ def complete_dep(df):
     return df
 
 def read_ids():
-    df = pd.read_csv(dirs.ids_processed_fp, encoding='utf-8', sep='\t',
+    df = pd.read_tsv(dirs.ids_processed_fp, encoding='utf-8', sep='\t',
                         header=None, names=['unicode', 'chara', 'sub_ids', 'regions', 'ivi'])
     return df
 
 def read_freqlist():
-    df = pd.read_csv(dirs.freqlist_fp, encoding='utf-8', sep='\t',
+    df = pd.read_tsv(dirs.freqlist_fp, encoding='utf-8', sep='\t',
                         header=None, names=['chara', 'freq', 'percentile'])
     return df
 
 def read_strokelist():
-    df = pd.read_csv(dirs.strokelist_fp, encoding='utf-8', sep='\t',
+    df = pd.read_tsv(dirs.strokelist_fp, encoding='utf-8', sep='\t',
                         header=None, names=['unicode', 'chara', 'stroke'])
-    df['stroke'] = df['stroke'].fillna(0)
     return df
 
 def _preprocess(df):
@@ -95,15 +94,18 @@ def _freqdict(df):
 def _insert_dep(df):
 	df = df.groupby('sub_ids').agg(
 		dep=('chara', tuple), 
+		char_count=('char_count', 'max'), 
 		# freq=('freq_div', 'sum'),
 		).reset_index()
 	df = df.rename(columns={'sub_ids': 'element'})
+	df['dep'] = df['element'].copy().apply(lambda x: (x,)) + df['dep']
 	return df
 
 def _insert_freq1(df, freqdict):
 
 	df['freq1'] = df['dep'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
 	df['freq1'] = df['freq1'].apply(sum)
+	df['freq1'] = df['freq1'] * df['char_count']
 	return df
 
 def _insert_elm_type(df):
@@ -123,17 +125,19 @@ def _insert_dep2(df):
 	df_complete = df.copy()
 	df_complete = complete_dep(df_complete).rename(columns={'dep': 'dep2'})
 	df = pd.merge(df, df_complete, on='element', how='left')
+	df['dep2'] = df['element'].copy().apply(lambda x: (x,)) + df['dep2']
 	return df
 
 def _insert_freq2(df, freqdict):
 
 	df['freq2'] = df['dep2'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
 	df['freq2'] = df['freq2'].apply(sum)
+	df['freq2'] = df['freq2'] * df['char_count']
 	return df
 
 def _insert_freq(df):
 	df = pd.merge(df, read_freqlist().rename(columns={'chara': 'element'}), on='element', how='left')
-	df['freq'] = df['freq'].fillna(0)
+	df['freq'] = df['freq'].copy().fillna(0)
 	return df
 
 def _insert_stroke(df):
@@ -166,7 +170,8 @@ def _split_sub_ids_regions(df, output):
 
 def _drop_dupl_and_sort(df):
 	df = df.drop_duplicates()
-	df = df.sort_values(['elm_type', 'stroke', 'freq2'], ascending=[True, True, False]).reset_index(drop=True)
+	df = df.sort_values(['elm_type', 'stroke', 'freq2'], ascending=[True, True, False]).reset_index(drop=True)  
+	df['stroke'] = df['stroke'].copy().fillna(0).astype(int)
 	return df
 
 def _arrange_cols_(df, output):
