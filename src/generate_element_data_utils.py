@@ -52,17 +52,17 @@ def complete_dep(df):
     return df
 
 def read_ids():
-    df = pd.read_tsv(dirs.ids_processed_fp, encoding='utf-8', sep='\t',
+    df = pd.read_csv(dirs.ids_processed_fp, encoding='utf-8', sep='\t',
                         header=None, names=['unicode', 'chara', 'sub_ids', 'regions', 'ivi'])
     return df
 
 def read_freqlist():
-    df = pd.read_tsv(dirs.freqlist_fp, encoding='utf-8', sep='\t',
+    df = pd.read_csv(dirs.freqlist_fp, encoding='utf-8', sep='\t',
                         header=None, names=['chara', 'freq', 'percentile'])
     return df
 
 def read_strokelist():
-    df = pd.read_tsv(dirs.strokelist_fp, encoding='utf-8', sep='\t',
+    df = pd.read_csv(dirs.strokelist_fp, encoding='utf-8', sep='\t',
                         header=None, names=['unicode', 'chara', 'stroke'])
     return df
 
@@ -166,7 +166,7 @@ def _split_sub_ids_regions(df, output):
 	if output == 'entries':
 		df = df.explode('sub_ids_regions').reset_index(drop=True)
 		df[['sub_ids', 'regions']] = df['sub_ids_regions'].apply(pd.Series)
-		return df
+	return df
 
 def _drop_dupl_and_sort(df):
 	df = df.drop_duplicates()

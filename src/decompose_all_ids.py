@@ -1,17 +1,17 @@
-import tsv
+import csv
 from tqdm import tqdm
 from src.modules.decomposer import decompose
-from src.generate_subdict import generate_subdict
+from src.readwrite import write_subdict
 
 def main():
 
     data_fp = 'data/ids_elements.tsv'
 
     with open(data_fp, 'r', encoding='utf-8') as tsvfile:
-        myreader = tsv.reader(tsvfile, delimiter='\t')
+        myreader = csv.reader(tsvfile, delimiter='\t')
         rows = list(myreader)
         
-        subdict = generate_subdict()
+        subdict = write_subdict()
         output = list()
         for row in tqdm(rows):
             # ids: unicode, char, ids, *_

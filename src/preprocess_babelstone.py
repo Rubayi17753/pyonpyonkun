@@ -1,4 +1,4 @@
-import tsv
+import csv
 import pandas as pd
 from tqdm import tqdm
 
@@ -7,7 +7,7 @@ import dirs
 def main():
 
 	with open(dirs.ids_data_fp, 'r', encoding='utf-8') as tsvfile:
-		myreader = tsv.reader(tsvfile, delimiter='\t')
+		myreader = csv.reader(tsvfile, delimiter='\t')
 		output = list()
 		comments = list()
 		
@@ -39,9 +39,9 @@ def main():
 						output.append((unicode, char, seq, tag, ivi))
 
 	with open(dirs.ids_processed_fp, 'w', encoding='utf-8', newline='') as tsvout:
-		spamwriter = tsv.writer(tsvout, delimiter='\t')
+		spamwriter = csv.writer(tsvout, delimiter='\t')
 		spamwriter.writerows(output)
 	
 	with open(dirs.ids_comments_fp, 'w', encoding='utf-8', newline='') as tsvout:
-		spamwriter = tsv.writer(tsvout, delimiter='\t')
+		spamwriter = csv.writer(tsvout, delimiter='\t')
 		spamwriter.writerows(comments)
