@@ -6,9 +6,9 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1):
     outcome_dict = {ids_main: 2}
     # ids_prevs = set()
 
-    test_ids = '⿰丨⿼{50}一'
-    print(parse_ids(test_ids))
-    exit()
+    # test_ids = '⿰丨⿼{50}一'
+    # print(parse_ids(test_ids))
+    # exit()
    
     def decompose_stage1(ids):
         for char in parse_ids(ids):

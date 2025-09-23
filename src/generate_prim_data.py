@@ -5,11 +5,12 @@ from collections import defaultdict
 from tqdm import tqdm
 
 from src.generate_element_data import _generate_element_data
+from src.modules.fetch_config import fetch_prims
 from src.modules.parser import parse_ids
 from src.modules.idc import idc_all
 import dirs
 
-def generate_custom_data():
+def generate_prim_data():
 
     print('Loading custom primes and substitutions from yaml')
     with open(dirs.assigned_fp, 'r', encoding='utf-8') as stream:

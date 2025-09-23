@@ -4,7 +4,7 @@ from itertools import chain
 
 import dirs
 from src.modules.parser import parse_ids
-from src.modules.fetch_config import load_config, fetch_config_chars
+from src.modules.fetch_config import load_config, fetch_prims
 
 def _generate_element_checklist(df):
 
@@ -14,10 +14,9 @@ def _generate_element_checklist(df):
 		else:
 			return -1
 
-	config_data = load_config()
-	config_chars = fetch_config_chars(config_data)
+	prims = fetch_prims()
 
-	df = df[~(df['element'].isin(config_chars))]
+	df = df[~(df['element'].isin(prims))]
 
 	df['freq2_log'] = df['freq2'].apply(log10)
 	df['freq2_log'] = df['freq2_log'].astype(int)

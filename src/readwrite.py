@@ -3,14 +3,15 @@ import pandas as pd
 from tqdm import tqdm
 
 import dirs
-from src.generate_subdict import generate_custom_data
+from src.generate_prim_data import generate_prim_data
 from src.generate_element_data import _generate_element_data
 from src.generate_element_checklist import _generate_element_checklist
 from src.element_data_to_secondary import _filter_secondary
+from src.modules.fetch_config import fetch_prims
 
 def write_subdict():
 
-    prims, prim_to_button = generate_custom_data()
+    prims = fetch_prims(include_compounds=False)
     df_sub = write_element_data(fp=dirs.ids_elements_fp_for_subdict, 
                                 output='two_lists')
     
@@ -39,7 +40,7 @@ def write_element_data(fp='',
             if rformat == '.tsv':
                 df = pd.read_csv(read_fp, encoding='utf-8', sep='\t')
             elif rformat == '.json':
-                df = pd.read_json(read_fp)
+                df = pd.read_json(read_fp, lines=True)
             else:
                 raise FileNotFoundError
         except FileNotFoundError:
