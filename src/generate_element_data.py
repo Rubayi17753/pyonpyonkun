@@ -3,7 +3,7 @@ from tqdm import tqdm
 
 import src.generate_element_data_utils as utils
 
-def _generate_element_data(output='entries', write_to='json', write_dep=False):
+def _generate_element_data(output='entries'):
 
     funcs = ['_preprocess',
     '_insert_char_count',

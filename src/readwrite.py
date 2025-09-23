@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from tqdm import tqdm
 
@@ -10,7 +11,8 @@ from src.element_data_to_secondary import _filter_secondary
 def write_subdict():
 
     prims, prim_to_button = generate_custom_data()
-    df_sub = write_element_data(output='two_lists', for_subdict=True, write_to='json')
+    df_sub = write_element_data(fp=dirs.ids_elements_fp_for_subdict, 
+                                output='two_lists')
     
     df_sub = df_sub[['element', 'sub_ids']]
 
@@ -20,35 +22,29 @@ def write_subdict():
     subdict = pd.Series(df_sub['sub_ids'].values, index=df_sub['element']).to_dict()
     return subdict
 
-def write_element_data(output='entries', read_from='x', write_to='json', write_dep=False, for_subdict=False):
+def write_element_data(fp='',
+                       read_fp='',
+                       write_fp='',
+                       output='entries',  
+                       write_dep=False):
 
-    if read_from == 'x':
-        read_from = write_to
+    read_fp = fp if read_fp == '' else ''
+    write_fp = fp if write_fp == '' else ''
+    rformat = os.path.splitext(read_fp)[1] if read_fp else ''
+    wformat = os.path.splitext(write_fp)[1] if write_fp else ''
 
     def process_data():
-        if for_subdict:
-            try:
-                df = pd.read_json(dirs.ids_elements_fp_for_subdict, lines=True)
-            except FileNotFoundError:
-                print(f'{dirs.ids_elements_fp_for_subdict} not found. Generating element_data')
-                df = _generate_element_data(output, write_to, write_dep)            
 
-        elif read_from == 'json' and not write_dep:
-            try:
-                df = pd.read_json(dirs.ids_elements_fp_json, lines=True)
-            except FileNotFoundError:
-                print(f'{dirs.ids_elements_fp_json} not found. Generating element_data')
-                df = _generate_element_data(output, write_to, write_dep)
-        
-        elif read_from == 'tsv' and not write_dep:
-            try:
-                df = pd.read_csv(dirs.ids_elements_fp_tsv, sep='\t')
-            except FileNotFoundError:
-                print(f'{dirs.ids_elements_fp_tsv} not found. Generating element_data')
-                df = _generate_element_data(output, write_dep, write_to='tsv', sep='\t')
-
-        else:
-            df = _generate_element_data(output, write_to, write_dep)
+        try:
+            if rformat == '.tsv':
+                df = pd.read_csv(read_fp, encoding='utf-8', sep='\t')
+            elif rformat == '.json':
+                df = pd.read_json(read_fp)
+            else:
+                raise FileNotFoundError
+        except FileNotFoundError:
+            print(f'{read_fp} not found. Generating element_data')
+            df = _generate_element_data(output)
 
         return df
     
@@ -61,29 +57,27 @@ def write_element_data(output='entries', read_from='x', write_to='json', write_d
             if 'dep' in cols and 'dep2' in cols:
                 del df_written['dep']
                 del df_written['dep2']
+        else:
+            pass
 
-        if write_to == 'json':
-            print(f'Writing to {dirs.ids_elements_fp_json}')
-            df_written.to_json(dirs.ids_elements_fp_json, orient='records', lines=True, force_ascii=False)
-
-        elif write_to == 'tsv':
-            print(f'Writing to {dirs.ids_elements_fp_tsv}')
-            df_written.to_csv(dirs.ids_elements_fp_tsv, sep='\t', encoding='utf-8', index=False) 
-
+        if write_fp:
+            print(f'Writing to {write_fp}')
+            if wformat == '.tsv':
+                df_written.to_csv(write_fp, sep='\t', encoding='utf-8', index=False)
+            elif wformat == '.json':
+                df_written.to_json(write_fp, orient='records', lines=True, force_ascii=False)
+        else:
+            pass
+ 
     df = process_data()
     write_data(df)
     return df
 
-def write_filter_secondary(refresh=False):
+def write_filter_secondary():
 
-    df = None
-
-    if not refresh:
-        try:
-            df = pd.read_csv(dirs.ids_elements_fp_tsv, sep='\t')
-        except FileNotFoundError:
-            df = write_element_data(output='entries', read_from='tsv', write_to='', write_dep=False)
-    
+    df = write_element_data(fp=dirs.ids_elements_fp_tsv,
+                output='entries',  
+                write_dep=False)
     df = _filter_secondary(df)
 
     df.to_csv(dirs.secondaries_csv_fp, sep='\t', encoding='utf-8', index=False)
@@ -93,7 +87,9 @@ def write_filter_secondary(refresh=False):
 
 def write_element_checklist():
     
-    df = write_element_data(output='entries', read_from='tsv', write_to='', write_dep=False)
+    df = write_element_data(fp=dirs.ids_elements_fp_tsv,
+                       output='entries',  
+                       write_dep=False)
     df = _generate_element_checklist(df)
     df.to_csv(dirs.checklist_fp, sep='\t', encoding='utf-8', index=False)
     return df
