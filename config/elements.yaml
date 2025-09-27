@@ -1,53 +1,112 @@
+idc: ⿲⿳⿰⿱⿺⿽⿸⿹⿵⿷⿼⿶⿴⿻
+
 simplexes_ignored: 一㇀㇒丶
 
 simplexes:
-    丨: 丨丿亅乚𠄌㇂㇝
-    ㇇: 𠃌乛𠃍㇇了
-    ⺄: 乁⺄㇈乙
-    ㄥ: 𠃊𠃋㇄𡿨
-    ㇏: 乀㇏㇝
-    ル: 人八𠆢丷刂儿入
-    十: 𠂇十𬺰
-    ㄡ: 又女夂夊
-    二: 二𠄠冫⺀𠄟𰀪
-    三: 氵三
-    ㄇ: 冂⺆冖卩几𠘨𠘧
-    力: 力刀九
-    ⺊: 卜⺊
-    七: 匕𠤎七𫠠乜
-    ㄩ: 凵丩
-    ㄨ: 㐅乂
-    ㄏ: 厂𠂆
-    弓: 𠃑㇉讠弓
-    ㄈ: 匚匸
-    ロ: 口囗
-    丰: 扌𰀁丯丰
-    廾: 廾艹
-    大: 大尢
-    小: 小忄𡭔⺌心灬⺗
-    ア: 已㔾巳尸ㄗ阝𰆊乃 # 巴
-    日: 日曰丑
-    コ: «50»«14»
-    x: 卍凸凹
+    - {cyp: '⋂', lat: 'w', elms: '冂⺆冖几𠘨𠘧力刀九乃卩ㄗ𰆊阝'}
+    - {cyp: '⸦', lat: 'a', elms: '匚匸'}
+    - {cyp: '⋃', lat: 's', elms: '凵丩'}
+    - {cyp: '⸧', lat: 'f', elms: '«50»«14»'}
+    - {cyp: '⎕', lat: 'd', elms: '口囗'}
+    - {cyp: '⍈', lat: 'D', elms: '日曰丑𠁣𠃛'}
+    - {cyp: 'ᒥ', lat: 'u', elms: '厂𠂆'}
+    - {cyp: 'ᑭ', lat: 'U', elms: '已㔾巳尸'}     # 巴
+    - {cyp: 'ᐱ', lat: 'i', elms: '人八𠆢丷刂儿入'}
+    - {cyp: '⫴', lat: 'I', elms: '小忄𡭔⺌心灬⺗川'}
+    - {cyp: 'ᒣ', lat: 'o', elms: '𠃌乛𠃍㇇了⺈𠂊乁⺄㇈乙'}
+    - {cyp: 'ᐳ', lat: 'l', elms: '二𠄠冫⺀𠄟𰀪'}
+    - {cyp: '≡', lat: 'L', elms: '氵三'}
+    - {cyp: 'ᐸ', lat: 'h', elms: '𠃊𠃋㇄𡿨«24»'}
+    - {cyp: '↓', lat: 'k', elms: '丨丿亅乚𠄌㇂㇝'}
+    - {cyp: '↘', lat: 'K', elms: '乀㇏㇝'}
+    - {cyp: '✙', lat: 'j', elms: '十𬺰㐅乂𠂇𫠠'}
+    - {cyp: '七', lat: '𝗍', elms: '匕𠤎七乜'}
+    - {cyp: 'ⴳ', lat: 'n', elms: '又女夂夊'}
+    - {cyp: '弓', lat: 'r', elms: '𠃑㇉讠弓'}
+    - {cyp: '?', lat: 'x', elms: '卍凸凹'}
 
 simplexes_reserve:
-    申: 毋毌田申甲电
+    申: 毋毌田申甲电«46»
     月: 月⺝⺼
     目: 目且耳罒皿
     ??: 丱
 
-compounds:
+presub:
+    ㇋: ⿱㇇㇇
+    𨈐: ⿱㇒⿻म㇒
+    𨈑: ⿱㇒⿴म二
     辶: ㇇㇐
-    廴: ㇇㇇㇐
-    母: 日二
-    𨈐: ㇒口㇒
-    身: ㇒目㇒
-    万: 一力
-    民: ㄗ𫠠
+    廴: ⿻㇋乀
+    民: 尸𫠠
     氏: ㄏ𫠠
     𧘇: 亻乀㇒
+    母: 日⺀
+    ###
+    ⺝: ⿵冂二
+    ⺼: ⿵⺆冫
+    毋: ⿻▱十
+    毌: ⿻▱十
+    ###
+    万: ⿸一力
+    ###
+    «1»: ⿹⿺㇉一灬 # 1 «1»: ⿹⿺㇉一灬 bottom of 廌焉舃
+    «2»: ⿱⺈𫩏 # 2 «2»: ⿱⺈𫩏 top of 免象
+    «3»: ⿱⺈⿵冂人 # 3 «3»: ⿱⺈⿵冂人 top of 夐
+    «4»: ⿱⿻⿰丨丨丷冖 # 4 «4»: ⿱⿻⿰丨丨丷冖 top of 䝉𫎇
+    «8»: ⿻⿱㇒一乚 # 8 «8»: ⿻⿱㇒一乚 right of 扥
+    «9»: ⿱⿰㇒㇖丨 # 9 «9»: ⿱⿰㇒㇖丨 right of 𪟳𪝪
+    «10»: ⿻⿻㇈丿丶 # 10 «10»: ⿻⿻㇈丿丶 right of 巩 [T source glyph]
+    «11»: ⿰⿱丶㇀⿱㇒丶 # 11 «11»: ⿰⿱丶㇀⿱㇒丶 bottom of 軣
+    «13»: ⿸⿰丿⿱⺊⺂七 # 13 «13»: ⿸⿰丿⿱⺊⺂七 outside of 虍
+    «15»: ⿻𱍸㇒ # 15 «15»: ⿻𱍸㇒ bottom-right of 旅
+    «16»: ⿲⿺𠄌⺀⿺𠄌⺀㇂ # 16 «16»: ⿲⿺𠄌⺀⿺𠄌⺀㇂ bottom of 鼠
+    «20»: 丸 # 20 «20»: 丸 right of 執 [G source glyph]
+    «22»: ⿺㇉一 # 22 «22»: ⿺㇉一 outside of 与
+    «28»: ⿻弋一 # 28 «28»: ⿻弋一 outside of 武貮
+    «29»: ⿻弋𢆶 # 29 «29»: ⿻弋𢆶 outside of 幾畿
+    «31»: ⿴囗⿻𰀪丶 # 31 «31»: ⿴囗⿻𰀪丶 bottom of 卥
+    «32»: ⿱⿻𠮛⿰丨丨冖 # 32 «32»: ⿱⿻𠮛⿰丨丨冖 top of 𣓝
+    «34»: ⿹勹丿 # 34 «34»: ⿹勹丿 bottom of 䇖
+    «35»: ⿻几𠄠 # 35 «35»: ⿻几𠄠 right of 𠖵
+    «36»: ⿳丆⺝冖 # 36 «36»:  top of 𠢘㥑
+    «37»: ⿱⺊冖 # 37 «37»: ⿱⺊冖 top of 睿
+    «38»: ⿱𰀉冖 # 38 «38»: ⿱𰀉冖 top of 橐
+    «41»: 𠕋 # 41 «41»: ⿻𦉫𠄠 left of 𠜂 [T-form of 𠕋]
+    «42»: 彐 # 42 «42»: 彐 top of 录
+    «43»: ⺕ # 43 «43»: ⺕ top of 㚑
+    «44»: ⿱十冖 # 44 «44»: ⿱十冖 top of 孛
+    «46»: ⿻日乚 # 46 «46»: ⿻日乚 bottom of 竜
+    «48»: 㐄 # 48 «48»: 㐄 bottom of 年 [J-form of 㐄]
+    «49»: ⿰丨丿 # 49 «49»: ⿰丨丿 left of 帅
+    «58»: ⿰«39»丶 # 58 «58»: ⿰«39»丶 top left of 留
+    «63»: 舟 # 63 «63»: 舟 left of 𦩳
+    «67»: ⿴⿰丨丨𠄠 # 67 «67»: ⿴⿰丨丨𠄠 middle of 髙 and 𠅘
+    «73»: ⿴𠀃三 # 73 «73»: ⿴𠀃三 top of 具
+    «78»: ⿱⿻口⿰丨丨一 # 78 «78»: ⿱⿻口⿰丨丨一 亜 without the top stroke
+    «80»: ⿱冖八 # 80 «80»: ⿱冖八 top of 罙 [G source glyph]
+    «82»: ⿱𦘒一 # 82 «82»: ⿱𦘒一 top of 書
+    «83»: ⿳亠丷冖 # 83 «83»: ⿳亠丷冖 top of 帝
+    «84»: ⿰丿乛 # 84 «84»: ⿰丿乛 厂 with hooked stroke
+    «85»: ⿰丿⿱丶乛 # 85 «85»: ⿰丿⿱丶乛 广 with hooked stroke
+    «86»: ⿲丶丶丶 # 86 «86»: ⿲丶丶丶 first three strokes of 灬
+    «87»: ⿳亠口冖 # 87 «87»: ⿳亠口冖 top of 亭
+    «88»: ⿵𠆢一 # 88 «88»: ⿵𠆢一 top of 合
+    «93»: ⿻昌乚 # 93 «93»: ⿻昌乚 right of 縄
+    «95»: ⿻尸一 # 95 «95»: ⿻尸一 bottom of 𢀞
+    «98»: ⿻一曲 # 98 «98»: ⿻一曲 top of 曹
+    «99»: ⿻𦉫𠄠 # 99 «99»: ⿻𦉫𠄠 top of 𢘼
+    «109»: ⿻⿱㇒一丿 # 109 «109»: ⿻⿱㇒一丿 left of 刋
+    «110»: 冂 # 110 «110»: 冂 outside of 𭁟
+    «113»: ⿵冂八 # 113 «113»: ⿵冂八 bottom of 𠕉
+    «114»: ⿱土八 # 114 «114»: ⿱土八 top of 坴 [G source glyph]
+    «115»: ⿻𰀪⺀ # 115 «115»: ⿻𰀪⺀ top of 𫭣
+    «117»: ⿺𠃊⺊ # 117 «117»: ⿺𠃊⺊ inside of 𠣏 [G source glyph]
+    «119»: ⿻己⿱工工 # 119 «119»: ⿻己⿱工工 right of 𥛈
+    «120»: ⿻弓⿱«50»匚 # 120 «120»: ⿻弓⿱«50»匚 right of 𤛒 without 口
+    «121»: ⿱⺈罒 # 121 «121»: ⿱⺈罒 top of 𣬋
 
-substitutes1:
+postsub:
+    ⿻𠃋𠃌: ▱
     ⿰㇒乛: ⺈ # 尔欠亇
     ⿰丿丨: 丌 # 廾介井弗齐丌乔养氘
     ⿱丶丶: ⺀ # 雨舟𠔾摔蟀眔
@@ -77,8 +136,7 @@ substitutes1:
     ⿰𰀪𰀠: 水
     ⿱㇒𰀠: «15»
     ⿻𠃋丿: 𠂇
-
-substitutes2: 
+    ###
     丅⿵冂: 帀
     ⿱一⿱一: ⿱二
     ⿱一⿳一: ⿳二
@@ -86,143 +144,90 @@ substitutes2:
     ⿲丨丨: ⿰刂
     一⿻一: 二
     一⿱一: 二
+    # ⿸⿱一丿𠃌: ⿸一勹
+    ⿰丿𠃌: 勹
 
 ---
 ids:
-    «1»: ⿹⿺㇉一灬	bottom of 廌焉舃
-    «2»: ⿱⺈𫩏	top of 免象
-    «3»: ⿱⺈⿵冂人	top of 夐
-    «4»: ⿱⿻⿰丨丨丷冖	top of 䝉𫎇
-    «5»: ？	left of 叚
-    «6»: ？	left of 段
-    «7»: ？	top of 專惠
-    «8»: ⿻⿱㇒一乚	right of 扥
-    «9»: ⿱⿰㇒㇖丨	right of 𪟳𪝪
-    «10»: ⿻⿻㇈丿丶	right of 巩 [T source glyph]
-    «11»: ⿰⿱丶㇀⿱㇒丶	bottom of 軣
-    «12»: ？	right of 龍
-    «13»: ⿸⿰丿⿱⺊⺂七	outside of 虍
-    «14»: ？	top of 𡕡
-    «15»: ⿻𱍸㇒	bottom-right of 旅
-    «16»: ⿲⿺𠄌⺀⿺𠄌⺀㇂	bottom of 鼠
-    «17»: ？	left of 剆 [G source glyph]
-    «18»: ？	left of 即
-    «19»: ？	right of 㤤
-    «20»: 丸	right of 執 [G source glyph]
-    «21»: ？	top of 祭豋
-    «22»: ⿺㇉一	outside of 与
-    «23»: ？	inside of 與
-    «24»: ？	right of 水
-    «25»: ？	bottom
-    «26»: ？	top of 韲
-    «27»: ？	bottom of 𤣥
-    «28»: ⿻弋一	outside of 武貮
-    «29»: ⿻弋𢆶	outside of 幾畿
-    «30»: ？	top of 彔
-    «31»: ⿴囗⿻𰀪丶	bottom of 卥
-    «32»: ⿱⿻𠮛⿰丨丨冖	top of 𣓝
-    «33»: ？	bottom of 雋
-    «34»: ⿹勹丿	bottom of 䇖
-    «35»: ⿻几𠄠	right of 𠖵
-    «36»: 	top of 𠢘㥑
-    «37»: ⿱⺊冖	top of 睿
-    «38»: ⿱𰀉冖	top of 橐
-    «39»: ？	left of 卬
-    «40»: ？	right of 𩤷
-    «41»: ⿻𦉫𠄠	left of 𠜂 [T-form of 𠕋]
-    «42»: 彐	top of 录
-    «43»: ⺕	top of 㚑
-    «44»: ⿱十冖	top of 孛
-    «45»: ？	left of 北 [G source glyph]
-    «46»: ⿻日乚	bottom of 竜
-    «47»: ？	outside of 鳥島
-    «48»: 㐄	bottom of 年 [J-form of 㐄]
-    «49»: ⿰丨丿	left of 帅
-    «50»: ？	top right of 叚
-    «51»: ？	outside of 馬
-    «52»: ？	outside of 马
-    «53»: ？	outside of 鸟岛
-    «54»: ？	outside of 烏
-    «55»: ？	outside of 鹿慶
-    «56»: ？	top of 無
-    «57»: ？	outside of 在
-    «58»: ⿰«39»丶	top left of 留
-    «59»: ？	bottom of 舄
-    «60»: ？	outside of 龜 [H source glyph]
-    «61»: ？	outside of 臧
-    «62»: ？	bottom of 華
-    «63»: 舟	left of 𦩳
-    «64»: ？	bottom left of 龜 [G source glyph]
-    «65»: ？	bottom right of 龜 [G source glyph]
-    «66»: ？	bottom right of 𪚴
-    «67»: ⿴⿰丨丨𠄠	middle of 髙 and 𠅘
-    «68»: ？	top of 黑
-    «69»: ？	outside of 戠
-    «70»: ？	inside of 虛
-    «71»: ？	left of 𦥑
-    «72»: ？	left of 印 [G source glyph]
-    «73»: ⿴𠀃三	top of 具
-    «74»: ？	middle of 鄕 [J source glyph]
-    «75»: ？	bottom left of 爵 [K source glyph]
-    «76»: ？	top of 長
-    «77»: ？	top of 㒫
-    «78»: ⿱⿻口⿰丨丨一	亜 without the top stroke
-    «79»: ？	亞 without the top stroke
-    «80»: ⿱冖八	top of 罙 [G source glyph]
-    «81»: ？	inner part of 𮭷
-    «82»: ⿱𦘒一	top of 書
-    «83»: ⿳亠丷冖	top of 帝
-    «84»: ⿰丿乛	厂 with hooked stroke
-    «85»: ⿰丿⿱丶乛	广 with hooked stroke
-    «86»: ⿲丶丶丶	first three strokes of 灬
-    «87»: ⿳亠口冖	top of 亭
-    «88»: ⿵𠆢一	top of 合
-    «89»: ？	outside of 𪚧
-    «90»: ？	core of 龜 [G source glyph]
-    «91»: ？	core of 黽
-    «92»: ？	core of 𪚧
-    «93»: ⿻昌乚	right of 縄
-    «94»: ？	top of 其
-    «95»: ⿻尸一	bottom of 𢀞
-    «96»: ？	outside of 𭾐
-    «97»: ？	bottom right of 𮊫 or right of 戠 without horizontal stroke
-    «98»: ⿻一曲	top of 曹
-    «99»: ⿻𦉫𠄠	top of 𢘼
-    «100»: ？	之 without top stroke
-    «101»: ？	left of 癶
-    «102»: ？	right of 癶
-    «103»: ？	top right of 祭
-    «104»: ？	top right of 𥋮
-    «105»: ？	top right of 𨄛
-    «106»: ？	top of 𡛹
-    «107»: ？	middle of 𡙌
-    «108»: ？	top of 冎 [G source glyph]
-    «109»: ⿻⿱㇒一丿	left of 刋
-    «110»: 冂	outside of 𭁟
-    «111»: ？	inside of 𭁟
-    «112»: ？	outside of 𦥓
-    «113»: ⿵冂八	bottom of 𠕉
-    «114»: ⿱土八	top of 坴 [G source glyph]
-    «115»: ⿻𰀪⺀	top of 𫭣
-    «116»: ？	inside top of 鹿慶
-    «117»: ⿺𠃊⺊	inside of 𠣏 [G source glyph]
-    «118»: ？	outside of 𠁅
-    «119»: ⿻己⿱工工	right of 𥛈
-    «120»: ⿻弓⿱«50»匚	right of 𤛒 without 口
-    «121»: ⿱⺈罒	top of 𣬋
-
+    «5»: ？ # 5 «5»: ？ left of 叚
+    «6»: ？ # 6 «6»: ？ left of 段
+    «7»: ？ # 7 «7»: ？ top of 專惠
+    «12»: ？ # 12 «12»: ？ right of 龍
+    «14»: ？ # 14 «14»: ？ top of 𡕡
+    «17»: ？ # 17 «17»: ？ left of 剆 [G source glyph]
+    «18»: ？ # 18 «18»: ？ left of 即
+    «19»: ？ # 19 «19»: ？ right of 㤤
+    «21»: ？ # 21 «21»: ？ top of 祭豋
+    «23»: ？ # 23 «23»: ？ inside of 與
+    «24»: ？ # 24 «24»: ？ right of 水
+    «25»: ？ # 25 «25»: ？ bottom
+    «26»: ？ # 26 «26»: ？ top of 韲
+    «27»: ？ # 27 «27»: ？ bottom of 𤣥
+    «30»: ？ # 30 «30»: ？ top of 彔
+    «33»: ？ # 33 «33»: ？ bottom of 雋
+    «39»: ？ # 39 «39»: ？ left of 卬
+    «40»: ？ # 40 «40»: ？ right of 𩤷
+    «45»: ？ # 45 «45»: ？ left of 北 [G source glyph]
+    «47»: ？ # 47 «47»: ？ outside of 鳥島
+    «50»: ？ # 50 «50»: ？ top right of 叚
+    «51»: ？ # 51 «51»: ？ outside of 馬
+    «52»: ？ # 52 «52»: ？ outside of 马
+    «53»: ？ # 53 «53»: ？ outside of 鸟岛
+    «54»: ？ # 54 «54»: ？ outside of 烏
+    «55»: ？ # 55 «55»: ？ outside of 鹿慶
+    «56»: ？ # 56 «56»: ？ top of 無
+    «57»: ？ # 57 «57»: ？ outside of 在
+    «59»: ？ # 59 «59»: ？ bottom of 舄
+    «60»: ？ # 60 «60»: ？ outside of 龜 [H source glyph]
+    «61»: ？ # 61 «61»: ？ outside of 臧
+    «62»: ？ # 62 «62»: ？ bottom of 華
+    «64»: ？ # 64 «64»: ？ bottom left of 龜 [G source glyph]
+    «65»: ？ # 65 «65»: ？ bottom right of 龜 [G source glyph]
+    «66»: ？ # 66 «66»: ？ bottom right of 𪚴
+    «68»: ？ # 68 «68»: ？ top of 黑
+    «69»: ？ # 69 «69»: ？ outside of 戠
+    «70»: ？ # 70 «70»: ？ inside of 虛
+    «71»: ？ # 71 «71»: ？ left of 𦥑
+    «72»: ？ # 72 «72»: ？ left of 印 [G source glyph]
+    «74»: ？ # 74 «74»: ？ middle of 鄕 [J source glyph]
+    «75»: ？ # 75 «75»: ？ bottom left of 爵 [K source glyph]
+    «76»: ？ # 76 «76»: ？ top of 長
+    «77»: ？ # 77 «77»: ？ top of 㒫
+    «79»: ？ # 79 «79»: ？ 亞 without the top stroke
+    «81»: ？ # 81 «81»: ？ inner part of 𮭷
+    «89»: ？ # 89 «89»: ？ outside of 𪚧
+    «90»: ？ # 90 «90»: ？ core of 龜 [G source glyph]
+    «91»: ？ # 91 «91»: ？ core of 黽
+    «92»: ？ # 92 «92»: ？ core of 𪚧
+    «94»: ？ # 94 «94»: ？ top of 其
+    «96»: ？ # 96 «96»: ？ outside of 𭾐
+    «97»: ？ # 97 «97»: ？ bottom right of 𮊫 or right of 戠 without horizontal stroke
+    «100»: ？ # 100 «100»: ？ 之 without top stroke
+    «101»: ？ # 101 «101»: ？ left of 癶
+    «102»: ？ # 102 «102»: ？ right of 癶
+    «103»: ？ # 103 «103»: ？ top right of 祭
+    «104»: ？ # 104 «104»: ？ top right of 𥋮
+    «105»: ？ # 105 «105»: ？ top right of 𨄛
+    «106»: ？ # 106 «106»: ？ top of 𡛹
+    «107»: ？ # 107 «107»: ？ middle of 𡙌
+    «108»: ？ # 108 «108»: ？ top of 冎 [G source glyph]
+    «111»: ？ # 111 «111»: ？ inside of 𭁟
+    «112»: ？ # 112 «112»: ？ outside of 𦥓
+    «116»: ？ # 116 «116»: ？ inside top of 鹿慶
+    «118»: ？ # 118 «118»: ？ outside of 𠁅
+    «122»: ？ # 122 «122»: ？ bottom of 宐
 ---
 remains:
     ?: 亻犭𠂉𠄎㐄及
     ??: 爪出冉曲我車里也
     ⊖: 𫝀𣥂𤓰𬺷𭺫𬺻𧰨𧰧𫝕𨳇𭴺
-    ;: ⺈𠂊纟己幺乡饣久攵𤣩礻火牜钅𥫗⺶襾訁釒飠
+    ;: 纟己幺乡饣久攵𤣩礻火牜钅𥫗⺶襾訁釒飠
 
 ---
 unsorted:
     simp: «100»«24»«52»«84»«27»«39»«43»«48»«25»«23»«45»«58»«20»«71»«117»«86»«42»«108»«10»«67»«76»«11»«15»«72»«95»𠀉«65»«112»«18»«46»«6»«53»瓜«94»«73»«19»«51»«91»«64»«75»«70»«90»«54»«12»«62»«74»豸«47»«40»«98»«79»«7»«68»«17»«16»«26»
     2: 丆亠«88»厶丁丅«22»龴勹丄«100»丂𰛄«24»𠄐«52»𠀁«84»«27»«39»刁巜
-    3: 土勺宀«97»彳子寸工广夕«57»巾上亍亡𠫔屮门下«43»士山干𫜹彡个兀«48»弋川丬才之𫝀«25»𰃦龵习于马与𰛅𠂋𭕄千么«23»义𠃓丫𠀃卄«45»丌𰀠«58»«20»丸乞乇卂𠂌«71»彑凡飞«117»«86»𰀃«42»巛𠔼亇刃卫亿丈亏«108»«10»亐𠂎卪叉𭠍𰀂𰀄𡳾𫶧«37»孑𬼽䶹孓
+    3: 土勺宀«97»彳子寸工广夕«57»巾上亍亡𠫔屮门下«43»士山干𫜹彡个兀«48»弋丬才之𫝀«25»𰃦龵习于马与𰛅𠂋𭕄千么«23»义𠃓丫𠀃卄«45»丌𰀠«58»«20»丸乞乇卂𠂌«71»彑凡飞«117»«86»𰀃«42»巛𠔼亇刃卫亿丈亏«108»«10»亐𠂎卪叉𭠍𰀂𰀄𡳾𫶧«37»孑𬼽䶹孓
     4: 木戈𠮛王斤方不中龶止耂巨尤云文牙𱼀𫩏殳廿开欠以从犬分戶贝手戸天反𠂒牛化爫元见𡈼龰车𫧇少公予夬为比歹旡夫壬冃勿五今支水气𠬝𭃂内𰀆介父«67»爿斗井冇区户六长太午𠓜片仒尺𣥂友円什专无朩切引卝毛帀办夭𠃜«76»內仑«11»亢屯队书«15»计㓁𠁣𠃛仓韦风卬升勾𰀡允匀尹勻冄仍卅厄𭁟厷巿冈厃𡭕«72»双冗历乏禸«28»互丑収仅凶匂𠀇«44»瓦匹艺«95»肀𱐩𡯃仁冘圡孔丹«113»扎乌币卆𠀉厅幻«65»𠔾攴邓仏凤仇𠔿𠂑夃爻𠠵仆«80»厸丐刈㝉兮尐弔«112»㕚卞仄丏仃㞢仌亓𠤏
     5: 白禾尔尓𤴓可去生示业立正玉甘左他本主尼旦未矢占乍石冋用加龷由戊«18»台宂穴古癶𰃮衤𦓐市令皮圥只𫩑疒代四北龸外对兄平发𢀖头半氺圣打务𢎨𡗗叫𠁤付包世术冬必央司句矛氐弗失召它朮𢆉右布另㐱㐌戋丙东叩疋処𠮥㠯𠮠史乎𠮦号斥刍丘戉仔«46»功㕣处広«6»奴兰击永旧写印鸟𠬤边末𠀐氶龙犯𫢉节卡𠂛«53»氿乐厈弁𰀢犮庁丗仕瓜艾氾刊宁汉辺札𫠣礼讨玄卯幼厉仙𠙻夗巧凷𠙽训叶奶归冊払汇卉圧丝册灭𠕁𩰊𩰋𠮡闪叹𤴔屵卢𦉫匆冚甩汁𠂔冯𡯄丛孕叧圤帅𦘒丕囚𣄼匝氷弘㲺扒氹叨«114»𠀔轧叱汀𦉰龱仟叵夲廵歺匛卮夯仨匃𡚬㞋仞仡囙宄尕艽艿邛
     6: 糸糹有䒑至佢在𦍌艮寺覀米同舌好年自合会各地成行而羊多吅交次先𭤨此那䏍吉虫关刖页全西舟衣聿充安因向再共如吏𠂤回名«94»亥当毎𦥑件产式𧰨后𭷔过列«73»旨百任虍亘吊早吕«82»老死动𢦏𱒃光色臼企争圭收军考并兴«19»仲亦羽𪧷戌机𰁜臣州«2»朿问齐劦亚𠂢刑字𠦏存𢖻兆份気厽缶执𠮷设防则朱华𠔉达决𫇦龹似农血约江廷壮㐫许杀导危両守夅师巩团«83»级𤰔𫡑延𠃧休邦肉宅舛尗忙夷众𭥍划乑幵买尽红灰旬伊负甶弚匈吂𣦼竹尧优乔夹阳刚杂伝𠯂欢刘托网岁«51»庄冲𰢴㓞宇𭃌夸压异孙耒池芝𣎾巟朵屰迅伏冰寻伙戏𢆶伐肋阴汤戎𠅃毕仿爷仰汗尖岂叒夺汚吋𡰯扣«91»«64»吐污闭扱劣𫥞邪穵«75»贞匡肌伪𦣞«70»亙迁迈圳𦈢戍轨朴«90»厌丢奸曳尘汒𰋷匠丟吁帆芒闯𡰪𣲇迄妄㐆«54»牟«1»朽兇丞汝伞孖𫠥乒玑阮奻㚏扛旭汛汲邢囡汙阪祁伎吆𭇁弛芋𠧗𡗞伢𫠤岌芍圩夙汐芊𠅇«31»圪纣䏌兊艸芎𠕽凼刎囟圮汜牝玎纥芏

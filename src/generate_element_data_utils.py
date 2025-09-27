@@ -70,7 +70,6 @@ def _preprocess(df):
 
 	parse_ids_str = partial(parse_ids, mode='str')
 	
-	print('Deleting entries involving subtraction')
 	df = df[~df['sub_ids'].str.contains('㇯', na=False)]
 
 	df['sub_ids'] = df['sub_ids'].copy().apply(parse_ids_str)
@@ -104,6 +103,8 @@ def _insert_dep(df):
 def _insert_freq1(df, freqdict):
 
 	df['freq1'] = df['dep'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
+	df['count1'] = df['freq1'].copy().apply(lambda x: list(dict.fromkeys([y for y in x if y > 0])))
+	df['count1'] = df['count1'].apply(len)
 	df['freq1'] = df['freq1'].apply(sum)
 	df['freq1'] = df['freq1'] * df['char_count']
 	return df
@@ -131,6 +132,8 @@ def _insert_dep2(df):
 def _insert_freq2(df, freqdict):
 
 	df['freq2'] = df['dep2'].apply(lambda cc: [freqdict.get(c, 0) for c in cc])
+	df['count2'] = df['freq2'].copy().apply(lambda x: list(dict.fromkeys([y for y in x if y > 0])))
+	df['count2'] = df['count2'].apply(len)
 	df['freq2'] = df['freq2'].apply(sum)
 	df['freq2'] = df['freq2'] * df['char_count']
 	return df
@@ -149,6 +152,8 @@ def _insert_sub_ids_regions(df, output):
 	df_ids2['element'] = df_ids2['element'].fillna('')
 	df_ids2['sub_ids'] = df_ids2['sub_ids'].fillna('')
 	df_ids2['regions'] = df_ids2['regions'].fillna('')
+
+	df_ids2 = df_ids2[~df_ids2['sub_ids'].str.contains('㇯', na=False)]
 
 	if output == 'two_lists':
 		df_ids2 = df_ids2.groupby('element').agg(
@@ -176,12 +181,18 @@ def _drop_dupl_and_sort(df):
 
 def _arrange_cols_(df, output):
 	if output in {'entries', 'two_lists'}:
-		df = df[['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 'freq', 'freq1', 'freq2', 'dep', 'dep2']]
+		df = df[['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 
+		   'freq', 'freq1', 'freq2', 
+		   'count1', 'count2', 
+		   'dep', 'dep2']]
 		df['sub_ids'] = df['sub_ids'].fillna(df['element'])  # default sub_ids: the element itself
 		df['regions'] = df['regions'].fillna('.')
 
 	elif output == 'tuples':
-		df = df[['element', 'sub_ids_regions', 'elm_type', 'stroke', 'freq', 'freq1', 'freq2', 'dep', 'dep2']]
+		df = df[['element', 'sub_ids', 'regions', 'elm_type', 'stroke', 
+		   'freq', 'freq1', 'freq2', 
+		   'count1', 'count2', 
+		   'dep', 'dep2']]
 		df['sub_ids_regions'] = df['sub_ids_regions'].fillna('.')   # wip
 	
 	return df

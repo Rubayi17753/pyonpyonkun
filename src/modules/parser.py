@@ -8,7 +8,10 @@ def parse_ids(s, mode='list'):
 
     s = ','.join(tuple(s))
 
-    if '{' in s or '«' in s:
+    if '«' in s:
+        s = s.replace('«', '{').replace('»', '}')
+
+    if '{' in s:
         for chara in '0123456789{«':
             if chara in s:
                 s = s.replace(f'{chara},', chara)

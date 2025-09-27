@@ -4,6 +4,7 @@ ids_comments_fp = 'data/intermediate/ids_comments.tsv'
 ids_elements_fp_json = 'data/intermediate/ids_elements.json'
 ids_elements_fp_for_subdict = 'data/intermediate/ids_elements_for_subdict.json'
 ids_elements_fp_tsv = 'data/intermediate/ids_elements.tsv'
+ids_decomposed_fp = 'data/output/ids_decomposed.tsv'
 
 freqlist_fp = 'data/raw/freqs/composite.tsv'
 strokelist_fp = 'data/raw/complete-strokes.txt'

@@ -1,10 +1,11 @@
 import math, yaml
 import pandas as pd
+import numpy as np
 from itertools import chain
 
 import dirs
 from src.modules.parser import parse_ids
-from src.modules.fetch_config import load_config, fetch_prims
+from src.modules.fetch_prims import load_config, fetch_prims
 
 def _generate_element_checklist(df):
 
@@ -18,11 +19,15 @@ def _generate_element_checklist(df):
 
 	df = df[~(df['element'].isin(prims))]
 
-	df['freq2_log'] = df['freq2'].apply(log10)
-	df['freq2_log'] = df['freq2_log'].astype(int)
-	df = df.groupby(['stroke', 'freq2_log']).agg(elms=('element', list),).reset_index()
-	df['elms'] = df['elms'].str.join('')
+	df['freq2_log'] = df['freq2'].copy().apply(log10)
+	df['freq2_log'] = df['freq2_log'].copy().astype(int)
 
-	df = df.sort_values(by=['stroke', 'freq2_log'], ascending=[True, False])
+	df['len_ids'] = df['sub_ids'].str.len()
+	df['ids_prim'] = np.where(df['len_ids'] <= 1, 'prim', '')
+
+	df = df.groupby(['ids_prim', 'stroke', 'freq2_log']).agg(elms=('element', list),).reset_index()
+	df['elms'] = df['elms'].copy().str.join('')
+
+	df = df.sort_values(by=['ids_prim', 'stroke', 'freq2_log'], ascending=[False, True, False])
 
 	return df

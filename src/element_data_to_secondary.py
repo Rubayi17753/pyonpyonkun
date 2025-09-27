@@ -4,13 +4,13 @@ from itertools import chain
 
 from src.modules.idc import idc_all
 from src.modules.parser import parse_ids
-from src.modules.fetch_config import load_config, fetch_prims
+from src.modules.fetch_prims import load_config, fetch_prims
 import dirs
 
 def _filter_secondary(df):
    
     config_data = load_config()
-    prims = fetch_prims()
+    prims = fetch_prims(config_data=config_data)
 
     omit_chars = set(list(parse_ids(config_data['simplexes_ignored'])) + list(idc_all))
     pattern = '[' + ''.join(omit_chars) + ']'
@@ -23,6 +23,6 @@ def _filter_secondary(df):
     ]
     
     df = df.groupby('sub_ids').agg(secondaries=('element', tuple),).reset_index()
-    df = df.rename({'sub_ids': 'primary'})
+    df = df.rename({'sub_ids': 'primary'}, axis=1)
 
     return df
