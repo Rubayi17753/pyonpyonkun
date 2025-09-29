@@ -15,7 +15,7 @@ def _generate_element_checklist(df):
 		else:
 			return -1
 
-	prims = fetch_prims()
+	prims, prim_to_cyp, lat_to_prim = fetch_prims()
 
 	df = df[~(df['element'].isin(prims))]
 

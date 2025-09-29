@@ -23,41 +23,29 @@ def _primary_to_secondary():
 def fetch_prims(config_data=load_config(), include_presub=True, include_secondary=True):
 
     df = pd.DataFrame(config_data['simplexes'])
+
+    df_lat_cyp = df[['lat', 'cyp']]
+    # lat_to_prim = pd.Series(df_map['cyp'].values, index=df_map['lat']).to_dict()
+
     df['elms'] = df['elms'].copy().apply(parse_ids)
     df = df.explode('elms').reset_index(drop=True)
 
-    print(df)
-    exit()
-
-
-    d = [c for c in config_data['simplexes'].values()]
-    q = [p['elms'] for p in d]
-    # q2 = [(p['key'], p['elms']) for p in d]
-
-    prim_to_key = [(ee, ky) for ky, entry in config_data['simplexes'].items() 
-                   for ee in entry['elms']]
-    
-    print(prim_to_key)
-    exit()
-
-    prims = zip(*prim_to_key)[1]
-
-    # prims = set(chain.from_iterable(q))
-    # prim_to_key = set(chain.from_iterable(q))
-
-    prims.update(parse_ids(config_data['simplexes_ignored']))
-    if include_presub:
-        prims.update(parse_ids(config_data['presub'].keys()))
-    prims.update(idc_all)
-
     if include_secondary:
         primary_to_secondary = _primary_to_secondary()
+        if primary_to_secondary:
+            df2 = df.copy()
+            df2['secs'] = df2['elms'].map(primary_to_secondary)
+            df2 = df2.dropna(subset=['secs'])
+            del df2['elms']
+            df2 = df2.rename(columns={'secs': 'elms'})
+            # df2 = df2.drop_duplicates()
+            df2 = df2.explode('elms').reset_index(drop=True)
+            df = pd.concat([df, df2])
 
-        if primary_to_secondary != dict():
-            prims2 = set(chain.from_iterable((primary_to_secondary.get(c, c) for c in prims)))
-            prims.update(prims2)
+    prims = df['elms'].to_list()
 
-    print(prims)
-    exit()
+    df_map = df.copy().groupby('elms').agg(cyp=('cyp', tuple),).reset_index()
+    df_prim_cyp = df_map[['cyp', 'elms']]
+    # prim_to_cyp = pd.Series(df_map['cyp'].values, index=df_map['elms']).to_dict()
 
-    return prims
+    return prims, df_prim_cyp, df_lat_cyp

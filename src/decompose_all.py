@@ -7,7 +7,7 @@ from src.modules.decomposer import decompose
 
 def decompose_all(df, subdict):
 
-    prims = fetch_prims()
+    prims, prim_to_cyp, lat_to_prim = fetch_prims()
 
     df['ids_neg'] = df['ids'].apply(lambda x: '㇯' in x)
     df = df[~df['ids_neg']]

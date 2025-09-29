@@ -12,9 +12,10 @@ from src.decompose_all import decompose_all
 
 def write_subdict():
 
-    prims = fetch_prims(include_presub=False)
+    prims, prim_to_cyp, lat_to_prim = fetch_prims(include_presub=False)
     df_sub = write_element_data(fp=dirs.ids_elements_fp_for_subdict, 
-                                output='two_lists')
+                                output='two_lists',
+                                refresh=False)
     
     df_sub = df_sub[['element', 'sub_ids']]
 
@@ -112,6 +113,4 @@ def write_decompose_all():
 
     print(f'Writing to {dirs.ids_decomposed_fp}')
     df.to_csv(dirs.ids_decomposed_fp, sep='\t', encoding='utf-8', index=False)
-    
-
 

@@ -10,7 +10,7 @@ import dirs
 def _filter_secondary(df):
    
     config_data = load_config()
-    prims = fetch_prims(config_data=config_data)
+    prims, prim_to_cyp, lat_to_prim = fetch_prims(config_data=config_data, include_secondary=False)
 
     omit_chars = set(list(parse_ids(config_data['simplexes_ignored'])) + list(idc_all))
     pattern = '[' + ''.join(omit_chars) + ']'
