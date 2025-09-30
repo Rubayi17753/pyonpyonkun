@@ -46,6 +46,8 @@ def ids_to_idsi(s: str) -> dict:
     else:               
         while chars[0] != 0:
             scan_ids(chars)
+
+    print(idsi)
     return idsi
 
 def idsi_to_ids(idsi: dict, starting_index = 0, return_type=str) -> str:
@@ -68,10 +70,14 @@ def idsi_to_ids(idsi: dict, starting_index = 0, return_type=str) -> str:
     
 def lint_idsi(idsi: dict):
 
-    # if not lint, corresponds to valid IDS
-    # otherwise returns a list of index indicating the positions of IDCs with irregular number of components
+    '''
+        if not lint, corresponds to valid IDS
+        otherwise returns a list of index indicating the positions of: 
+        - characters misidentified as IDS
+        - IDCs with irregular number of components
+    '''
 
-    lint = (index for (index, sub_ids) in zip(*idsi.items()) if idc_to_len[sub_ids[0]] != len(sub_ids) - 1)
+    lint = (index for index, sub_ids in zip(*idsi.items()) if idc_to_len[sub_ids[0]] != len(sub_ids) - 1)
     return lint
 
 def lint_ids(s):
@@ -79,9 +85,10 @@ def lint_ids(s):
     idsi = ids_to_idsi(s)
     lint = lint_idsi(idsi)
     if lint:
-        print(f'Invalid IDS: IDCs with irregular number of components in position(s) {", ".join(lint)}')
+        print(f'Invalid IDS {s} \nIDCs with irregular number of components in position(s) {", ".join(lint)}')
+        return 1
     else:
-        print('Valid IDS')
+        return 0
 
 
 
