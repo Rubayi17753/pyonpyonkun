@@ -21,6 +21,7 @@ def ids_to_idsi(s: str) -> dict:
 
     idsi = dict()
     chars = parse_ids(s)
+
     def scan_ids(chars):
 
         # tuple() is neccesitated by the fact that lists cannot be iterated and modified at the same time
@@ -39,10 +40,12 @@ def ids_to_idsi(s: str) -> dict:
                     
                     chars[i: i+j] = (i,)  # within IDS, substitute sub-IDS with an index (equivalent to the IDC's index) 
                     idsi[i] = copy.deepcopy(sub_ids)         # add both index and sub-IDS into output
-                    
-    while chars[0] != 0:
-        scan_ids(chars)
 
+    if all([char not in idc_all for char in chars]):
+        pass
+    else:               
+        while chars[0] != 0:
+            scan_ids(chars)
     return idsi
 
 def idsi_to_ids(idsi: dict, starting_index = 0, return_type=str) -> str:
