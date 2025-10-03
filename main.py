@@ -9,7 +9,10 @@ from src.readwrite import write_decompose_all
 from src.readwrite_specific import write_element1
 
 if __name__ == '__main__':
-	lint()
+
+	main1()
+
+	# lint()
 
 	# write_decompose_all()
 	# write_element_data(output='entries', read_from='', write_to='tsv', write_dep=False)

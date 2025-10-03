@@ -13,3 +13,5 @@ assigned_fp = 'config/elements.yaml'
 checklist_fp = 'config/uncategorized.tsv'
 secondaries_json_fp = 'config/secondaries.json'
 secondaries_csv_fp = 'config/secondaries.tsv'
+
+ids_lint_report_fp = 'data/output/ids_lint.txt'
