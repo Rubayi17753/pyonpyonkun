@@ -68,8 +68,6 @@ def ids_to_idsi(s: str) -> dict:
 
 def idsi_to_ids(idsi: dict, starting_index = 0, return_type=str) -> str:
 
-    print(idsi)
-
     # basic idea: code substitute integers for sub-IDS until no integers left in IDS
 
     ids = idsi.get(starting_index, '')

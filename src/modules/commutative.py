@@ -9,8 +9,6 @@ def switch_elements(seq: list):
 
 def generate_commutatives(ids: str, include_self=1, non_commutative=1):
 
-	print(ids)
-
 	output = list()
 	idsi = ids_to_idsi(ids)
 

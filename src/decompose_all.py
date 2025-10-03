@@ -15,18 +15,27 @@ def decompose_all(df, subdict):
     df = df[~df['ids_neg']]
     del df['ids_neg']
 
+    charas = df['chara'].to_list()
     idss = df['ids'].to_list()
-    ids_comm = [generate_commutatives(x) for x in tqdm(idss)]
-    df['ids_comm'] = pd.Series(ids_comm)
-    # df['ids_comm'] = df['ids'].apply(generate_commutatives)
-    df = df.explode('ids_comm').reset_index(drop=True)
+    dfdata_ids_comm = [(chara, generate_commutatives(ids)) for (chara, ids) in tqdm(zip(charas, idss))]
+    # df['ids_comm'] = pd.Series(ids_comm)
+
+    df2 = pd.DataFrame()
+    df2[['chara', 'ids']] = pd.DataFrame(dfdata_ids_comm)
+    # df['ids'] = df['ids'].apply(generate_commutatives)
+    df = df.explode('ids').reset_index(drop=True)
+    df['ids'] = df['ids'].fillna('!NaN!')
+
+    # serie = df['ids_comm'][df['ids_comm'].apply(lambda x: not isinstance(x, str))]
+    # print(serie)
 
     charas = df['chara'].to_list()
-    idss = df['ids_comm'].to_list()
-    ids2 = [x if x in prims else decompose(x, subdict) for x in tqdm(idss)]
+    idss = df['ids'].to_list()
+    dfdata_ids2 = [(chara, ids, [ids,] if ids in prims else decompose(ids, subdict)) for (chara, ids) in tqdm(zip(charas, idss))]
 
-    df2 = pd.DataFrame({'chara': charas, 'ids': idss, 'ids2': ids2})
+    df3 = pd.DataFrame()
+    df3[['chara', 'ids', 'ids2']] = pd.DataFrame(dfdata_ids2)
     # df = df.explode('ids_expanded').reset_index(drop=True)
     # df = df[['unicode', 'chara', 'ids', 'ids_expanded', 'reg', 'ivi']]
     
-    return df2
+    return df3

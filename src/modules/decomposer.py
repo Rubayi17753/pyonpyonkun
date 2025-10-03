@@ -66,7 +66,7 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
         decompose_stage2()
         
         i += 1
-        if i >= 100:
+        if i >= 200:
             # warnings.warn(f'WARNING: infinite loop suspected while decomposing {ids_main}')
             return ['! INF LOOP !',]
 
