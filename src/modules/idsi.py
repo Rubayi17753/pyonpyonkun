@@ -21,30 +21,44 @@ def ids_to_idsi(s: str) -> dict:
 
     idsi = dict()
     chars = parse_ids(s)
+    chars2 = tuple(chars)
+
+    '''
+        chars2 = unmutated copy of chars, used:
+            - in iteration
+            - to generate actual IDSI entries
+    '''
+
 
     def scan_ids(chars):
 
         # tuple() is neccesitated by the fact that lists cannot be iterated and modified at the same time
-        for i, char in enumerate(tuple(chars)):
+        for i, char in enumerate(chars):
             if char in idc_all:
 
                 j = 4 if char in idc3 else 3
+
                 sub_ids = chars[i: i+j]
-                # print(f'>> {i}, {i+j} : {sub_ids}')
+                if sub_ids and sub_ids[0] in idc_all and all((True if x not in idc_all else False for x in sub_ids[1:])):
 
-                if sub_ids and all((True if x not in idc_all else False for x in sub_ids[1:])):
+                    # print(f'{chars} {i} {i+j} {sub_ids}')
+                    # print(f'{i} : {sub_ids}')
+                    # print(f'>> {i}, {i+j} : {sub_ids}')
 
-                    # i.e., if there is no other IDC in proximity to IDC.
-                    # if there is none:
-                    # create a sub-IDS, 
+                    '''
+                        i.e., if there is no other IDC in proximity to IDC,
+                        (as reckoned by sub_ids, here only used as a sieve)
+                        introduce a 'mirror_sub_ids' reckoned from the original chars
+                    '''
                     
+                    idsi[i] = copy.deepcopy(chars[i: i+j])         # add both index and sub-IDS into output
                     chars[i: i+j] = (i,)  # within IDS, substitute sub-IDS with an index (equivalent to the IDC's index) 
-                    idsi[i] = copy.deepcopy(sub_ids)         # add both index and sub-IDS into output
 
     if all([char not in idc_all for char in chars]):
         pass
     else:               
         while chars[0] != 0:
+            # print(chars)
             scan_ids(chars)
 
     return idsi

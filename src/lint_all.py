@@ -29,6 +29,7 @@ def main():
     for i, ids in enumerate(idss):
         lint_msg = lint_ids(ids)
         if lint_msg:
+            print(f'Malformed IDS at line {i}')
             out_msg.append(f'\n\nMalformed IDS at line {i}')
             out_msg.append(lint_msg)
 
