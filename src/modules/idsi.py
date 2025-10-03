@@ -13,6 +13,9 @@ IDSI = Ideographical Description Sequence *Index*:
 """
 
 import copy
+import time
+import itertools
+from more_itertools import collapse
 
 from src.modules.parser import parse_ids
 from src.modules.idc import idc_all, idc2, idc3, idc_to_len
@@ -65,14 +68,19 @@ def ids_to_idsi(s: str) -> dict:
 
 def idsi_to_ids(idsi: dict, starting_index = 0, return_type=str) -> str:
 
+    print(idsi)
+
     # basic idea: code substitute integers for sub-IDS until no integers left in IDS
 
     ids = idsi.get(starting_index, '')
 
     while not all((not isinstance(x, int) for x in ids)):
+       
         for i, dep in enumerate(ids.copy()):
             if isinstance(dep, int):
-                ids[i: i+1] = idsi.get(dep, '')
+                ids[i] = idsi.get(dep, '')
+
+        ids = list(itertools.chain.from_iterable(ids))
                 
     if return_type == str:
         return ''.join(ids)

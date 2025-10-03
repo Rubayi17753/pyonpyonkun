@@ -12,10 +12,10 @@ if __name__ == '__main__':
 
 	# main1()
 
-	lint()
+	# lint()
 
-	# write_decompose_all()
 	# write_element_data(output='entries', read_from='', write_to='tsv', write_dep=False)
 	# write_element_data(fp=dirs.ids_elements_fp_tsv, refresh=True)
-
 	# write_element1()
+
+	write_decompose_all()
