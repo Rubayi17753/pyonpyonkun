@@ -45,7 +45,7 @@ def decompose_all(df, subdict, omit_idc=1):
 
         return output, loop_text
 
-    dfdata_ids2 = [(chara, ids, *((ids, '') if ids in prims else decompose1(ids, subdict))) for (chara, ids) in tqdm(zip(charas, idss))]
+    dfdata_ids2 = [(chara, ids, *((chara, '') if chara in prims else decompose1(ids, subdict))) for (chara, ids) in tqdm(zip(charas, idss))]
 
     df3 = pd.DataFrame()
     df3[['chara', 'ids', 'ids2', 'loop']] = pd.DataFrame(dfdata_ids2)
