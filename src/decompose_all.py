@@ -8,6 +8,8 @@ from src.modules.commutative import generate_commutatives
 from src.modules.decomposer import decompose
 import src.modules.idc
 
+import dirs
+
 def decompose_all(df, subdict, omit_idc=1):
 
     prims, prim_to_cyp, lat_to_prim = fetch_prims()
@@ -55,6 +57,11 @@ def decompose_all(df, subdict, omit_idc=1):
         if omit_idc:
             for idc in tqdm(src.modules.idc.idc_all, desc='Deleting IDCs'):
                 df['ids2'] = df['ids2'].str.replace(idc, '', regex=False)
+
+        df_freq = pd.read_csv(dirs.freqlist_fp, sep='\t', header=None, names=['chara', 'freq', 'count'])
+        df = pd.merge(df, df_freq, on='chara', how='left')
+        df = df.sort_values(by=['freq',], ascending=[False,])
+        df = df.drop_duplicates()
 
         return df[['chara', 'ids2']]
     

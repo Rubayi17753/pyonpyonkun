@@ -111,7 +111,9 @@ def write_decompose_all(refresh_element_data=False):
         df = pd.read_csv(f, sep='\t', header=None, names=['unicode', 'chara', 'ids', 'reg', 'ivi'])
         df, df_dict_yaml = decompose_all(df, subdict)
 
+    print(f'Writing to {dirs.dict_yaml_fp}')
+    df_dict_yaml.to_csv(dirs.dict_yaml_fp, sep='\t', encoding='utf-8', index=False)
+
     print(f'Writing to {dirs.ids_decomposed_fp}')
     df.to_csv(dirs.ids_decomposed_fp, sep='\t', encoding='utf-8', index=False)
-    df_dict_yaml.to_csv(dirs.dict_yaml_fp, sep='\t', encoding='utf-8', index=False)
 
