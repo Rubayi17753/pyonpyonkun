@@ -18,4 +18,4 @@ if __name__ == '__main__':
 	# write_element_data(fp=dirs.ids_elements_fp_tsv, refresh=True)
 	# write_element1()
 
-	write_decompose_all()
+	write_decompose_all(refresh_element_data=False)

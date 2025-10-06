@@ -3,7 +3,7 @@ import copy
 import warnings
 from src.modules.parser import parse_ids
 
-def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
+def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, debug_mode=0):
 
     output = 0
     outcome_dict = {ids_main: 2}   
@@ -11,6 +11,7 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
         decomp1_log ensures that decompose_stage1 runs only once for any given IDS.
     ''' 
     decomp1_log = set()
+    loop_status = 0
 
     # ids_prevs = set()
 
@@ -32,6 +33,7 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
         return set(idss)          # [s for s in idss if s != ids]
 
     def decompose_stage2():
+        
         for ids in outcome_dict.copy():
 
             if ids in decomp1_log:
@@ -41,7 +43,7 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
                 idss = decompose_stage1(ids)
                 decomp1_log.add(ids)
                 
-                if test_mode:
+                if debug_mode:
                     print(f' {ids} > {decompose_stage1(ids)}')
 
                 if idss == set():
@@ -58,17 +60,20 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
     i = 0
     while 2 in outcome_dict.values():
 
-        if test_mode:
+        if debug_mode:
             print(f'log: {decomp1_log}')
             print(outcome_dict)
             print('\n')
+            time.sleep(0.5)
 
         decompose_stage2()
         
         i += 1
         if i >= 200:
             # warnings.warn(f'WARNING: infinite loop suspected while decomposing {ids_main}')
-            return ['! INF LOOP !',]
+            # return ['! INF LOOP !',]
+            loop_status = 1
+            break
 
     if mode == 'full_decomp':
         output = {mykey : myvalue for mykey, myvalue in outcome_dict.items() if myvalue == 0}
@@ -83,5 +88,5 @@ def decompose(ids_main, subdict, mode='full_decomp', keys_only=1, test_mode=0):
     if keys_only:
         output = list(output.keys())
     
-    return output
+    return output, loop_status
         

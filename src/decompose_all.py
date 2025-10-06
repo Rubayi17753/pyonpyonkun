@@ -6,8 +6,9 @@ from functools import partial
 from src.modules.fetch_prims import fetch_prims
 from src.modules.commutative import generate_commutatives
 from src.modules.decomposer import decompose
+import src.modules.idc
 
-def decompose_all(df, subdict):
+def decompose_all(df, subdict, omit_idc=1):
 
     prims, prim_to_cyp, lat_to_prim = fetch_prims()
 
@@ -31,11 +32,35 @@ def decompose_all(df, subdict):
 
     charas = df['chara'].to_list()
     idss = df['ids'].to_list()
-    dfdata_ids2 = [(chara, ids, [ids,] if ids in prims else decompose(ids, subdict)) for (chara, ids) in tqdm(zip(charas, idss))]
+
+    def decompose1(ids, subdict):
+        output, loop_status = decompose(ids, subdict)
+
+        if loop_status:
+            loop_text = '! INF LOOP !'
+        else:
+            loop_text = ''
+
+        return output, loop_text
+
+    dfdata_ids2 = [(chara, ids, *((ids, '') if ids in prims else decompose1(ids, subdict))) for (chara, ids) in tqdm(zip(charas, idss))]
 
     df3 = pd.DataFrame()
-    df3[['chara', 'ids', 'ids2']] = pd.DataFrame(dfdata_ids2)
+    df3[['chara', 'ids', 'ids2', 'loop']] = pd.DataFrame(dfdata_ids2)
+
+    # Prepare dict_yaml
+    def df_to_dict_yaml(df):
+        df = df.explode('ids2').reset_index(drop=True)
+
+        if omit_idc:
+            for idc in tqdm(src.modules.idc.idc_all, desc='Deleting IDCs'):
+                df['ids2'] = df['ids2'].str.replace(idc, '', regex=False)
+
+        return df[['chara', 'ids2']]
+    
+    df_dict_yaml = df_to_dict_yaml(df3)
+
     # df = df.explode('ids_expanded').reset_index(drop=True)
     # df = df[['unicode', 'chara', 'ids', 'ids_expanded', 'reg', 'ivi']]
     
-    return df3
+    return df3, df_dict_yaml

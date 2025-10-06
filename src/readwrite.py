@@ -10,12 +10,12 @@ from src.element_data_to_secondary import _filter_secondary
 from src.modules.fetch_prims import fetch_prims
 from src.decompose_all import decompose_all
 
-def write_subdict():
+def write_subdict(refresh_element_data=False):
 
     prims, prim_to_cyp, lat_to_prim = fetch_prims(include_presub=False)
     df_sub = write_element_data(fp=dirs.ids_elements_fp_for_subdict, 
                                 output='two_lists',
-                                refresh=False)
+                                refresh=refresh_element_data)
     
     df_sub = df_sub[['element', 'sub_ids']]
 
@@ -104,13 +104,14 @@ def write_element_checklist():
     df.to_csv(dirs.checklist_fp, sep='\t', encoding='utf-8', index=False)
     return df
 
-def write_decompose_all():
+def write_decompose_all(refresh_element_data=False):
 
     with open(dirs.ids_processed_fp, 'r', encoding='utf-8') as f:
-        subdict = write_subdict()
+        subdict = write_subdict(refresh_element_data=refresh_element_data)
         df = pd.read_csv(f, sep='\t', header=None, names=['unicode', 'chara', 'ids', 'reg', 'ivi'])
-        df = decompose_all(df, subdict)
+        df, df_dict_yaml = decompose_all(df, subdict)
 
     print(f'Writing to {dirs.ids_decomposed_fp}')
     df.to_csv(dirs.ids_decomposed_fp, sep='\t', encoding='utf-8', index=False)
+    df_dict_yaml.to_csv(dirs.dict_yaml_fp, sep='\t', encoding='utf-8', index=False)
 
