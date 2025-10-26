@@ -5,7 +5,7 @@ from itertools import chain
 
 import dirs
 from src.modules.parser import parse_ids
-from src.modules.fetch_prims import load_config, fetch_prims
+from src.modules.fetch_config import load_config, fetch_prims
 
 def _generate_element_checklist(df):
 

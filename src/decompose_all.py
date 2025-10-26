@@ -3,7 +3,7 @@ import pandas as pd
 from tqdm import tqdm
 from functools import partial
 
-from src.modules.fetch_prims import fetch_prims
+from src.modules.fetch_config import fetch_prims
 from src.modules.commutative import generate_commutatives
 from src.modules.decomposer import decompose
 import src.modules.idc

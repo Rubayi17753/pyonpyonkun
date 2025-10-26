@@ -4,7 +4,7 @@ from itertools import chain
 
 from src.modules.idc import idc_all
 from src.modules.parser import parse_ids
-from src.modules.fetch_prims import load_config, fetch_prims
+from src.modules.fetch_config import load_config, fetch_prims
 import dirs
 
 def _filter_secondary(df):

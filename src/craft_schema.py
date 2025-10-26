@@ -1,4 +1,4 @@
-from src.modules.fetch_prims import fetch_prims
+from src.modules.fetch_config import fetch_prims
 from src.modules.parser import parse_ids
 
 def main():

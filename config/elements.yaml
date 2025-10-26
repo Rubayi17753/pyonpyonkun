@@ -7,13 +7,14 @@ simplexes:
     - {cyp: '⸦', lat: 'a', elms: '匚匸'}
     - {cyp: '⋃', lat: 's', elms: '凵丩'}
     - {cyp: '⸧', lat: 'f', elms: '«50»«14»'}
-    - {cyp: '⎕', lat: 'd', elms: '口囗'}
+    - {cyp: '⎕', lat: 'd', elms: '口囗▱𠀃'}
     - {cyp: '⍈', lat: 'D', elms: '日曰丑𠁣𠃛'}
     - {cyp: 'ᒥ', lat: 'u', elms: '厂𠂆'}
     - {cyp: 'ᑭ', lat: 'U', elms: '已㔾巳尸'}     # 巴
     - {cyp: 'ᐱ', lat: 'i', elms: '人八𠆢丷刂儿入'}
     - {cyp: '⫴', lat: 'I', elms: '小忄𡭔⺌心灬⺗川«86»'}
     - {cyp: 'ᒣ', lat: 'o', elms: '𠃌乛𠃍㇇了⺈𠂊乁⺄㇈乙'}
+    - {cyp: 'ᑫ', lat: 'O', elms: 'म'}
     - {cyp: 'ᐳ', lat: 'l', elms: '二𠄠冫⺀𠄟𰀪'}
     - {cyp: '≡', lat: 'L', elms: '氵三'}
     - {cyp: 'ᐸ', lat: 'h', elms: '𠃊𠃋㇄𡿨«24»'}

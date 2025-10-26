@@ -20,7 +20,7 @@ def _primary_to_secondary():
 		print(f'{dirs.secondaries_json_fp} not found')
 		return dict()
 	
-def fetch_prims(config_data=load_config(), include_presub=True, include_secondary=True):
+def fetch_prims(config_data=load_config(), include_secondary=True):
 
     df = pd.DataFrame(config_data['simplexes'])
 
@@ -49,3 +49,6 @@ def fetch_prims(config_data=load_config(), include_presub=True, include_secondar
     # prim_to_cyp = pd.Series(df_map['cyp'].values, index=df_map['elms']).to_dict()
 
     return prims, df_prim_cyp, df_lat_cyp
+
+def fetch_presub_dict(config_data=load_config()):    
+    return config_data['presub']

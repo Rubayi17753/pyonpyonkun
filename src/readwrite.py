@@ -7,16 +7,23 @@ from src.archive.generate_prim_data import generate_prim_data
 from src.generate_element_data import _generate_element_data
 from src.generate_element_checklist import _generate_element_checklist
 from src.element_data_to_secondary import _filter_secondary
-from src.modules.fetch_prims import fetch_prims
+from src.modules.fetch_config import fetch_prims, fetch_presub_dict
 from src.decompose_all import decompose_all
 
-def write_subdict(refresh_element_data=False):
+def write_subdict(fp=dirs.ids_elements_fp_json_lite2, refresh_element_data=False):
 
-    prims, prim_to_cyp, lat_to_prim = fetch_prims(include_presub=False)
-    df_sub = write_element_data(fp=dirs.ids_elements_fp_for_subdict, 
-                                output='two_lists',
-                                refresh=refresh_element_data)
-    
+    presub_dict = fetch_presub_dict()
+
+    prims, prim_to_cyp, lat_to_prim = fetch_prims()
+
+    try:
+        df_sub = pd.read_json(fp, lines=True)
+    except FileNotFoundError:
+        print(f'{fp} not found. Generating element_data')
+        df_sub = write_element_data(fp, 
+                                    output='two_lists',
+                                    refresh=refresh_element_data)
+
     df_sub = df_sub[['element', 'sub_ids']]
 
     # Overwrite sub_ids set in custom_subs
@@ -81,25 +88,34 @@ def write_element_data(fp='',
     write_data(df)
     return df
 
-def write_filter_secondary():
+def write_filter_secondary(fp = dirs.ids_elements_fp_tsv):
 
-    df = write_element_data(fp=dirs.ids_elements_fp_tsv,
-                output='entries',  
-                write_dep=False,
-                refresh=False)
+    try:
+        df = pd.read_csv(fp, encoding='utf-8', sep='\t')
+    except FileNotFoundError:
+        print(f'{fp} not found. Generating element_data')
+        df = write_element_data(fp=dirs.ids_elements_fp_tsv,
+                       output='entries',  
+                       write_dep=False,
+                        refresh=False)
+
     df = _filter_secondary(df)
-
     df.to_csv(dirs.secondaries_csv_fp, sep='\t', encoding='utf-8', index=False)
     with open(dirs.secondaries_json_fp, 'w', encoding='utf-8') as f:
         df.to_json(f, force_ascii='False', orient='records', lines=True)
     return df
 
-def write_element_checklist():
-    
-    df = write_element_data(fp=dirs.ids_elements_fp_tsv,
+def write_element_checklist(fp = dirs.ids_elements_fp_json_lite1):
+
+    try:
+        df = pd.read_json(fp, encoding='utf-8')
+    except FileNotFoundError:
+        print(f'{fp} not found. Generating element_data')
+        df = write_element_data(fp=dirs.ids_elements_fp_json_lite1,
                        output='entries',  
                        write_dep=False,
                         refresh=False)
+
     df = _generate_element_checklist(df)
     df.to_csv(dirs.checklist_fp, sep='\t', encoding='utf-8', index=False)
     return df
